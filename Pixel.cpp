@@ -11,7 +11,7 @@ uint8_t Pixel::getG() const {return g;}
 uint8_t Pixel::getB() const {return b;}
 uint8_t Pixel::getA() const {return a;}
 
-QColor Pixel::toQColor(Pixel oldc) {
+QColor Pixel::toQColor(const Pixel& oldc) {
     QColor newc(oldc.getR(), oldc.getG(), oldc.getB(), oldc.getA());
     return newc;
 }

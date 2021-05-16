@@ -25,7 +25,7 @@ public:
     uint8_t getB() const;
     uint8_t getA() const;
 
-    static QColor toQColor(Pixel);
+    static QColor toQColor(const Pixel&);
     static Pixel fromQColor(const QColor&);
 };
 
