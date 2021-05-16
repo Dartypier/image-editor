@@ -7,11 +7,11 @@
 class grayScaleOptimizedCommand: public ICommand {
 private:
     Image& image;
-    Color* bakData;
+    Pixel* bakData;
 
 public:
     explicit grayScaleOptimizedCommand(Image& image);
-    ~grayScaleOptimizedCommand();
+    ~grayScaleOptimizedCommand() override;
 
     void execute() override;
     void undo() override;

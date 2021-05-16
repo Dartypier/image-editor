@@ -1,8 +1,8 @@
 #include "grayScaleOptimizedCommand.h"
 
 grayScaleOptimizedCommand::grayScaleOptimizedCommand(Image &image) : image(image){
-    //bakData = new Color[image.getFileSize()];
-    //memcpy(bakData, image.data, sizeof(Color)*image.getFileSize());
+    //bakData = new Pixel[image.getFileSize()];
+    //memcpy(bakData, image.data, sizeof(Pixel)*image.getFileSize());
     bakData = image.getDeepData();
 }
 

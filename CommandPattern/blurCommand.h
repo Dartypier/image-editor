@@ -7,11 +7,11 @@
 class blurCommand : public ICommand{
 private:
     Image& image;
-    Color* bakData;
+    Pixel* bakData;
 
 public:
-    blurCommand(Image& image);
-    ~blurCommand();
+    explicit blurCommand(Image& image);
+    ~blurCommand() override;
 
     void execute() override;
     void undo() override;

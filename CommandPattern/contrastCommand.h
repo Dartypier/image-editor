@@ -7,12 +7,12 @@
 class contrastCommand : public ICommand{
 private:
     Image& image;
-    Color* bakData;
+    Pixel* bakData;
     int contrast;
 
 public:
-    contrastCommand(Image& image, int conrast);
-    ~contrastCommand();
+    explicit contrastCommand(Image& image, int conrast);
+    ~contrastCommand() override;
 
     void execute() override;
     void undo() override;

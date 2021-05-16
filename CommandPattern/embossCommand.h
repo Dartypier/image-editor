@@ -7,11 +7,11 @@
 class embossCommand : public ICommand{
 private:
     Image& image;
-    Color* bakData;
+    Pixel* bakData;
 
 public:
-    embossCommand(Image& image);
-    ~embossCommand();
+    explicit embossCommand(Image& image);
+    ~embossCommand() override;
 
     void execute() override;
     void undo() override;

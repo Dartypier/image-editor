@@ -7,11 +7,11 @@
 class edgeDetectCommand : public ICommand{
 private:
     Image& image;
-    Color* bakData;
+    Pixel* bakData;
 
 public:
-    edgeDetectCommand(Image& image);
-    ~edgeDetectCommand();
+    explicit edgeDetectCommand(Image& image);
+    ~edgeDetectCommand() override;
 
     void execute() override;
     void undo() override;

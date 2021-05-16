@@ -1,10 +1,9 @@
 #include "Image.h"
 #include "utils.h"
 #include <QColor>
-#include "Color.h"
+#include "Pixel.h"
 #include <iostream>
 #include <algorithm>
-#include <iterator>
 #include <cmath>
 
 Image::Image(const QString& path): backData(path), path(path){
@@ -13,7 +12,7 @@ Image::Image(const QString& path): backData(path), path(path){
     w = backData.width();                                        //it's a 24bit (8*3) + alpha channel (8bit)
     h = backData.height();
     size = w*h;
-    data = new Color [size];
+    data = new Pixel [size];
     createData();
 }
 
@@ -26,7 +25,7 @@ void Image::createData() {
         for(int x=0; x<w; x++){ //columns
 //            if(!backData.valid(x, y)) //TODO: add throw
 //                cout << "NOT" << endl;
-            Color currentPixel = Color::fromQColor(backData.pixelColor(x, y)); //get rgba values (because depth is 24 is 0-255 rgb+alpha)
+            Pixel currentPixel = Pixel::fromQColor(backData.pixelColor(x, y)); //get rgba values (because depth is 24 is 0-255 rgb+alpha)
                 data[y*w+x] = currentPixel;
 
             //securing data (all default data is deleted now): [manual test]
@@ -38,7 +37,7 @@ void Image::save(const QString& outPath, int quality){
 
     for(int y=0; y<h; y++) //rows
         for(int x=0; x<w; x++){ //columns
-            backData.setPixelColor(x, y, Color::toQColor(data[y*w+x]));
+            backData.setPixelColor(x, y, Pixel::toQColor(data[y*w+x]));
         }
 
     //save image on disk
@@ -68,7 +67,7 @@ void Image::grayScaleOptimized() {
     for(int y=0; y<h; y++) //rows
         for(int x=0; x<w; x++){ //columns
             int gray = 0.2126*data[y*w+x].getR() + 0.7125*data[y*w+x].getG() + 0.0722*data[y*w+x].getB();
-            Color grayPixelColor(gray, gray, gray, data[y*w+x].getA());
+            Pixel grayPixelColor(gray, gray, gray, data[y*w+x].getA());
             data[y*w+x] = grayPixelColor;
         }
 }
@@ -77,7 +76,7 @@ void Image::colorMask(int r, int g, int b) { //accepted from 0 to 100
     if(is0_100(r) && is0_100(g) && is0_100(b)){
 
         for(int i=0; i<size; i++) {
-            data[i] = Color(data[i].getR()*(r/double(100)),
+            data[i] = Pixel(data[i].getR()*(r/double(100)),
                         data[i].getG()*(g/double(100)),
                         data[i].getB()*(b/double(100)),
                         data[i].getA());
@@ -86,7 +85,7 @@ void Image::colorMask(int r, int g, int b) { //accepted from 0 to 100
 }
 
 void Image::flipX(){
-    Color temp;
+    Pixel temp;
 
     for(int y=0; y<h; y++)
         for(int x=0; x<w/2;x++){
@@ -97,7 +96,7 @@ void Image::flipX(){
 }
 
 void Image::flipY() {
-    Color temp;
+    Pixel temp;
 
     for(int x=0; x<w; x++)
         for(int y=0; y<h/2; y++){
@@ -111,7 +110,7 @@ void Image::brightness(int value){
     double normalizedValue = truncate_m100_100(value) * 2.55;
 
     for(int i=0; i<size; i++){
-        data[i] = Color(
+        data[i] = Pixel(
                 truncate0_255(data[i].getR() + normalizedValue),
                 truncate0_255(data[i].getG() + normalizedValue),
                 truncate0_255(data[i].getB() + normalizedValue),
@@ -122,7 +121,7 @@ void Image::brightness(int value){
 void Image::contrast(int contrast) {
 
     double normalizedContrast = truncate_m100_100(contrast) * 2.55;
-    double factor = (259.0*(contrast+255))/(255.0*(259-contrast));
+    double factor = (259.0*(normalizedContrast+255))/(255.0*(259-normalizedContrast));
 
     int cr;
     int cg;
@@ -132,7 +131,7 @@ void Image::contrast(int contrast) {
         cr = truncate0_255(factor* (data[i].getR()-128) + 128);
         cg = truncate0_255(factor* (data[i].getG()-128) + 128);
         cb = truncate0_255(factor* (data[i].getB()-128) + 128);
-        data[i] = Color(cr, cg, cb, data[i].getA());
+        data[i] = Pixel(cr, cg, cb, data[i].getA());
     }
 }
 
@@ -140,7 +139,7 @@ void Image::flip90Dx() {
 
     backData = QImage(h, w, QImage::Format_RGB32);
     //TODO: implement copy and custom iterator
-    Color * tempArr = new Color[size];
+    Pixel * tempArr = new Pixel[size];
 
     for(int i=0; i<size; i++) {
         tempArr[i] = data[i];
@@ -173,7 +172,7 @@ void Image::scale(int percentual) {
 }
 
 void Image::scale(int x, int y) {
-    Color *newData = new Color[x*y];
+    Pixel *newData = new Pixel[x*y];
 
     double x_ratio = w/(double)x;
     double y_ratio = h/(double)y;
@@ -226,16 +225,16 @@ void Image::emboss() {
                             {0, 1, 2}};
 }
 
-Color *Image::getDeepData() const {
-    Color* dataCopy = new Color[getSize()];
+Pixel *Image::getDeepData() const {
+    Pixel* dataCopy = new Pixel[getSize()];
 
     for(int i=0; i<size; i++)
-        dataCopy[i] = Color(data[i]); //call copy constructor for deep copy
+        dataCopy[i] = Pixel(data[i]); //call copy constructor for deep copy
 
     return dataCopy;
 }
 
-void Image::setDeepData(Color* bakData) {
+void Image::setDeepData(Pixel* bakData) {
     for(int i=0; i<getSize(); i++)
-        data[i] = Color(bakData[i]);
+        data[i] = Pixel(bakData[i]);
 }

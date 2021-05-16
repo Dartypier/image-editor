@@ -7,13 +7,13 @@
 class scaleCommand : public ICommand{
 private:
     Image& image;
-    Color* bakData;
+    Pixel* bakData;
     int percentual{0}, x{0}, y{0};
 
 public:
     scaleCommand(Image& image, int percentual);
     scaleCommand(Image& image, int x, int y);
-    ~scaleCommand();
+    ~scaleCommand() override;
 
     void execute() override;
     void undo() override;
