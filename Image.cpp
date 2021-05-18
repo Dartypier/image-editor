@@ -127,14 +127,10 @@ void Image::contrast(int contrast) {
     double normalizedContrast = truncate_m100_100(contrast) * 2.55;
     double factor = (259.0 * (normalizedContrast + 255)) / (255.0 * (259 - normalizedContrast));
 
-    int cr;
-    int cg;
-    int cb;
-
     for (int i = 0; i < size; i++) {
-        cr = truncate0_255(factor * (data[i].getR() - 128) + 128);
-        cg = truncate0_255(factor * (data[i].getG() - 128) + 128);
-        cb = truncate0_255(factor * (data[i].getB() - 128) + 128);
+        int cr = truncate0_255(factor * (data[i].getR() - 128) + 128);
+        int cg = truncate0_255(factor * (data[i].getG() - 128) + 128);
+        int cb = truncate0_255(factor * (data[i].getB() - 128) + 128);
         data[i] = Pixel(cr, cg, cb, data[i].getA());
     }
 }
@@ -142,7 +138,6 @@ void Image::contrast(int contrast) {
 void Image::flip90Dx() {
 
     backData = QImage(h, w, QImage::Format_RGB32);
-    //TODO: implement copy and custom iterator
     Pixel *tempArr = new Pixel[size];
 
     for (int i = 0; i < size; i++) {
@@ -162,7 +157,6 @@ void Image::flip90Dx() {
 
 void Image::flip90Sx() {
     backData = QImage(h, w, QImage::Format_RGB32);
-    //TODO: implement copy and custom iterator
     Pixel *tempArr = new Pixel[size];
 
     for (int i = 0; i < size; i++) {
@@ -194,7 +188,9 @@ void Image::scale(int x, int y) {
 
     double x_ratio = w / (double) x;
     double y_ratio = h / (double) y;
-    double px, py;
+    double px;
+    double py;
+
     for (int i = 0; i < y; i++)
         for (int j = 0; j < x; j++) {
             px = floor(j * x_ratio);

@@ -62,9 +62,7 @@ public:
     void scale(int percentual);
     void scale(int x, int y);
 
-    //TODO: implement apply_filter
-    //TODO: implement blur, sharpen, edge detect, eboss
-    //kernel processing uses EXTEND method for edge pixels (valued to 0)
+    //kernel processing uses EXTEND method for edge pixels
     void blur();
     void sharpen();
     void edgeDetect();

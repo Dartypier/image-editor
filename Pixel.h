@@ -19,8 +19,6 @@ public:
     Pixel(); //all black
     Pixel(const Pixel& pixel);
 
-    //Pixel operator=(const Pixel& pixel);
-
     uint8_t getR() const;
     uint8_t getG() const;
     uint8_t getB() const;
