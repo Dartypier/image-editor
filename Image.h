@@ -40,7 +40,7 @@ private:
     Pixel* getDeepData() const;
     void setDeepData(Pixel* bakData);
 
-    void applyKernel(); //used by kernel processing methods
+    void applyKernel(double[3][3]); //used by kernel processing methods
 
 public:
     explicit Image(const QString& path);
@@ -69,6 +69,10 @@ public:
     void sharpen();
     void edgeDetect();
     void emboss();
+    void original();
+
+
+
 };
 
 

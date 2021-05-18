@@ -36,3 +36,7 @@ Pixel::Pixel(const Pixel &color) {
     this->b = color.getB();
     this->a = color.getA();
 }
+
+//Pixel Pixel::operator=(const Pixel &pixel) {
+//    return Pixel(pixel.getR(), pixel.getG(), pixel.getB(), pixel.getA());
+//}
