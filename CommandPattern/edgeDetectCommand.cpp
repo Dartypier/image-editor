@@ -9,7 +9,7 @@ edgeDetectCommand::~edgeDetectCommand() {
 }
 
 void edgeDetectCommand::execute() {
-    image.sharpen();
+    image.edgeDetect();
 }
 
 void edgeDetectCommand::undo() {

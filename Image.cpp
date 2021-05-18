@@ -216,6 +216,8 @@ void Image::applyKernel(double kernel[3][3]) {
 
     Pixel *temp = new Pixel[(w + 2) * (h + 2)];
 
+    //not very elegant
+
     //borders are extended to prevent frame creation on processed images
 
     //copy inside matrix
