@@ -2,8 +2,8 @@
 #include "CommandPattern/Commands.h"
 
 #define PATH QStringLiteral("../image-test/") //test purpose
-#define IMAGE QStringLiteral("transp.png")
-#define OUT QStringLiteral("out_filt.png")
+#define IMAGE QStringLiteral("test.jpg")
+#define OUT QStringLiteral("out.jpg")
 
 using namespace std;
 
@@ -22,8 +22,7 @@ int main() {
 //    commandManager.redo();
 //    //commandManager.redo();
 
-//    test.grayScaleOptimized();
-    test.blur();
+    test.flip90Sx();
 //    test.original();
 
     test.save(PATH + OUT);

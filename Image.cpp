@@ -163,7 +163,21 @@ void Image::flip90Dx() {
 void Image::flip90Sx() {
     backData = QImage(h, w, QImage::Format_RGB32);
     //TODO: implement copy and custom iterator
-    //TODO: implement method
+    Pixel *tempArr = new Pixel[size];
+
+    for (int i = 0; i < size; i++) {
+        tempArr[i] = data[i];
+    }
+
+    for (int i = 0; i < w; i++) //row
+        for (int j = 0; j < h; j++) //columns
+            data[(w-i-1)*h+j] = tempArr[j*w+i];
+
+    int temp = w;
+    w = h;
+    h = temp;
+
+    delete[] tempArr;
 }
 
 void Image::scale(int percentual) {
@@ -270,6 +284,8 @@ void Image::applyKernel(double kernel[3][3]) {
                                                 data[(i - 1) * w + (j - 1)].getA());
         }
     }
+
+    delete[] temp;
 }
 
 void Image::blur() {
@@ -315,7 +331,7 @@ void Image::original() {
 }
 
 Pixel *Image::getDeepData() const {
-    Pixel *dataCopy = new Pixel[getSize()];
+    auto *dataCopy = new Pixel[getSize()];
 
     for (int i = 0; i < size; i++)
         dataCopy[i] = Pixel(data[i]); //call copy constructor for deep copy
