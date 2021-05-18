@@ -18,7 +18,7 @@ Image::Image(const QString &path) : backData(path), path(path) {
     createData();
 }
 
-void Image::calculateFilename() { //better name has to be defined
+void Image::pureFilename() { //better name has to be defined
     filename = path.mid(path.lastIndexOf("/"));
 }
 
@@ -71,6 +71,7 @@ void Image::grayScaleOptimized() {
         for (int x = 0; x < w; x++) { //columns
             int gray =
                     0.2126 * data[y * w + x].getR() + 0.7125 * data[y * w + x].getG() + 0.0722 * data[y * w + x].getB();
+
             Pixel grayPixelColor(gray, gray, gray, data[y * w + x].getA());
             data[y * w + x] = grayPixelColor;
         }
@@ -165,7 +166,7 @@ void Image::flip90Sx() {
 
     for (int i = 0; i < w; i++) //row
         for (int j = 0; j < h; j++) //columns
-            data[(w-i-1)*h+j] = tempArr[j*w+i];
+            data[(w - i - 1) * h + j] = tempArr[j * w + i];
 
     int temp = w;
     w = h;
@@ -294,18 +295,19 @@ void Image::blur() {
 }
 
 void Image::sharpen() {
-    double sharpenKer[3][3] = {{0,  -1, 0},
-                               {-1, 5,  -1},
-                               {0,  -1, 0}};
+    double sharpenKer[3][3] = {{-1,  -1, -1},
+                               {-1, 9,  -1},
+                               {-1,  -1, -1}};
 
     applyKernel(sharpenKer);
 }
 
 void Image::edgeDetect() {
-    double edgeDetectKer[3][3] = {{-1, -1, -1},
-                                  {-1, 8,  -1},
-                                  {-1, -1, -1}};
+    double edgeDetectKer[3][3] = {{0, 1, 0},
+                                  {1, -4,  1},
+                                  {0, 1, 0}};
 
+    grayScaleOptimized();
     applyKernel(edgeDetectKer);
 }
 
@@ -317,14 +319,15 @@ void Image::emboss() {
     applyKernel(embossKer);
 }
 
-void Image::original() {
-    double identity[3][3] = {{0, 0, 0},
-                             {0, 1, 0},
-                             {0, 0, 0}};
 
-    applyKernel(identity);
-
-}
+//void Image::original() {
+//    double identity[3][3] = {{0, 0, 0},
+//                             {0, 1, 0},
+//                             {0, 0, 0}};
+//
+//    applyKernel(identity);
+//
+//}
 
 Pixel *Image::getDeepData() const {
     auto *dataCopy = new Pixel[getSize()];

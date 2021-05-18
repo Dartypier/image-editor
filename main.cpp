@@ -22,7 +22,9 @@ int main() {
 //    commandManager.redo();
 //    //commandManager.redo();
 
-    test.flip90Sx();
+//    test.flip90Sx();
+//    test.flip90Dx();
+    test.edgeDetect();
 //    test.original();
 
     test.save(PATH + OUT);

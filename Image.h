@@ -27,14 +27,14 @@ class Image {
 private:
     QImage backData; //stores backend data infos
     QString path;
-    QString filename{""};
+    QString filename;
     int w{0};
     int h{0};
     Pixel* data;
     size_t size{0};
 
     void createData();
-    void calculateFilename();
+    void pureFilename();
     size_t getSize() const;
 
     Pixel* getDeepData() const;
@@ -67,7 +67,7 @@ public:
     void sharpen();
     void edgeDetect();
     void emboss();
-    void original();
+    //void original(); test purpose
 
 
 
