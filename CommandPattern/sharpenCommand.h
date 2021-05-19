@@ -7,11 +7,11 @@
 class sharpenCommand :public ICommand{
 private:
     Image& image;
-    Color* bakData;
+    Pixel* bakData;
 
 public:
-    sharpenCommand(Image& image);
-    ~sharpenCommand();
+    explicit sharpenCommand(Image& image);
+    ~sharpenCommand() override;
 
     void execute() override;
     void undo() override;

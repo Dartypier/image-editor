@@ -4,7 +4,7 @@
 //handles RGBA/RGB images
 #include <QImage>
 #include <QString>
-#include "Color.h"
+#include "Pixel.h"
 
 using namespace std;
 
@@ -27,23 +27,26 @@ class Image {
 private:
     QImage backData; //stores backend data infos
     QString path;
-    QString filename{""};
+    QString filename;
     int w{0};
     int h{0};
-    Color* data;
+    Pixel* data;
     size_t size{0};
 
     void createData();
-    void calculateFilename();
+    void pureFilename();
     size_t getSize() const;
 
-    Color* getDeepData() const;
-    void setDeepData(Color* bakData);
+    Pixel* getDeepData() const;
+    void setDeepData(Pixel* bakData);
+
+    void applyKernel(double[3][3]); //used by kernel processing methods
 
 public:
     explicit Image(const QString& path);
     ~Image(); //delete dynamic data matrix
     void save(const QString& outPath, int quality = -1); //-1 auto compression //0-100 quality range
+    Image(Image& image) = delete;
 
     string getPath() const;
     string getFilename() const;
@@ -59,14 +62,15 @@ public:
     void scale(int percentual);
     void scale(int x, int y);
 
-    //TODO: implement apply_filter
-    //TODO: implement blur, sharpen, edge detect, eboss
-    //kernel processing uses EXTEND method for edge pixels (valued to 0)
-    void applyKernel(); //used by kernel processing methods
+    //kernel processing uses EXTEND method for edge pixels
     void blur();
     void sharpen();
     void edgeDetect();
     void emboss();
+    //void original(); test purpose
+
+
+
 };
 
 

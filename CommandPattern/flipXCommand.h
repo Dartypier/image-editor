@@ -8,11 +8,11 @@ class flipXCommand:public ICommand {
 
 private:
     Image& image;
-    Color* bakData;
+    Pixel* bakData;
 
 public:
-    flipXCommand(Image& image);
-    ~flipXCommand();
+    explicit flipXCommand(Image& image);
+    ~flipXCommand() override;
 
     void execute() override;
     void undo() override;

@@ -7,12 +7,12 @@
 class brightnessCommand : public ICommand {
 private:
     Image& image;
-    Color* bakData;
+    Pixel* bakData;
     int value;
 
 public:
-    brightnessCommand(Image& image, int value);
-    ~brightnessCommand();
+    explicit brightnessCommand(Image& image, int value);
+    ~brightnessCommand() override;
 
     void execute() override;
     void undo() override;

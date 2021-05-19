@@ -7,11 +7,11 @@
 class flip90SxCommand:public ICommand {
 private:
     Image& image;
-    Color* bakData;
+    Pixel* bakData;
 
 public:
-    flip90SxCommand(Image& image);
-    ~flip90SxCommand();
+    explicit flip90SxCommand(Image& image);
+    ~flip90SxCommand() override;
 
     void execute() override;
     void undo() override;

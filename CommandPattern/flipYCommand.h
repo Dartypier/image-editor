@@ -7,11 +7,11 @@
 class flipYCommand : public ICommand{
 private:
     Image& image;
-    Color* bakData;
+    Pixel* bakData;
 
 public:
-    flipYCommand(Image& image);
-    ~flipYCommand();
+    explicit flipYCommand(Image& image);
+    ~flipYCommand() override;
 
     void execute() override;
     void undo() override;

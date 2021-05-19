@@ -7,12 +7,12 @@
 class colorMaskCommand: public ICommand {
 private:
     Image& image;
-    Color* bakData;
+    Pixel* bakData;
     int r, g, b;
 
 public:
-    colorMaskCommand(Image&, int r, int g, int b);
-    ~colorMaskCommand();
+    explicit colorMaskCommand(Image&, int r, int g, int b);
+    ~colorMaskCommand() override;
 
     void execute() override;
     void undo() override;
