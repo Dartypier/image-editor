@@ -19,6 +19,9 @@ public:
     Pixel(); //all black
     Pixel(const Pixel& pixel);
 
+    bool operator==(const Pixel& pixel) const;
+    bool operator!=(const Pixel& pixel) const;
+
     uint8_t getR() const;
     uint8_t getG() const;
     uint8_t getB() const;

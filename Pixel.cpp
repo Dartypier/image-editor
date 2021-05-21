@@ -24,10 +24,14 @@ Pixel Pixel::fromQColor(const QColor& oldc) {
 
     oldc.getRgb(&rc, &gc, &bc, &ac);
 
-    if(is0_255(rc) && is0_255(gc) && is0_255(bc) && is0_255(ac))
-        return Pixel(rc, gc, bc, ac);
-    else
-        return Pixel();
+    //if QCOlor parameters are invalid, the color is invalid
+    //TODO: provide exception for invalid color?
+//    rc = truncate0_255(rc);
+//    gc = truncate0_255(gc);
+//    bc = truncate0_255(bc);
+//    ac = truncate0_255(ac);
+
+    return Pixel(rc, gc, bc, ac);
 }
 
 Pixel::Pixel(const Pixel &color) {
@@ -37,6 +41,17 @@ Pixel::Pixel(const Pixel &color) {
     this->a = color.getA();
 }
 
-//Pixel Pixel::operator=(const Pixel &pixel) {
-//    return Pixel(pixel.getR(), pixel.getG(), pixel.getB(), pixel.getA());
-//}
+bool Pixel::operator==(const Pixel &pixel) const{
+
+    if(getR()==pixel.getR() &&
+        getG()==pixel.getG() &&
+        getB()==pixel.getB() &&
+        getA()==pixel.getA())
+        return true;
+    else
+        return false;
+}
+
+bool Pixel::operator!=(const Pixel &pixel) const {
+    return !operator==(pixel);
+}
