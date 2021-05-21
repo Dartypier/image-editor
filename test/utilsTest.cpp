@@ -34,7 +34,7 @@ TEST(Truncate0_100, InRange) {
         EXPECT_EQ(truncate0_100(i), i);
 }
 
-TEST(Truncate0_199, OutOfRange) {
+TEST(Truncate0_100, OutOfRange) {
     EXPECT_EQ(truncate0_100(-1), 0);
     EXPECT_EQ(truncate0_100(101), 100);
     EXPECT_EQ(truncate0_100(-1373), 0);
