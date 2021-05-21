@@ -63,7 +63,7 @@ string Image::getFilename() const {
 }
 
 size_t Image::getSize() const {
-    return w*h;
+    return w * h;
 
 }
 
@@ -81,52 +81,52 @@ void Image::grayScaleOptimized() {
 
 void Image::colorMask(int r, int g, int b) { //accepted from 0 to 100
 
-    r= truncate0_100(r);
-    g= truncate0_100(g);
-    b= truncate0_100(b);
+    r = truncate0_100(r);
+    g = truncate0_100(g);
+    b = truncate0_100(b);
 
-        for (int i = 0; i < getSize(); i++) {
-            data[i] = Pixel(data[i].getR() * (r / double(100)),
-                            data[i].getG() * (g / double(100)),
-                            data[i].getB() * (b / double(100)),
-                            data[i].getA());
-        }
+    for (int i = 0; i < getSize(); i++) {
+        data[i] = Pixel(data[i].getR() * (r / double(100)),
+                        data[i].getG() * (g / double(100)),
+                        data[i].getB() * (b / double(100)),
+                        data[i].getA());
+    }
 }
 
 void Image::flipX() {
     Pixel temp;
 
-    if(w>2)
+    if (w > 2)
         for (int y = 0; y < h; y++)
             for (int x = 0; x < w / 2; x++) {
                 temp = data[x + y * w];
                 data[x + y * w] = data[(w - 1 - x) + y * w];
                 data[(w - 1 - x) + y * w] = temp;
             }
-    else if(w==2){
-        for(int y=0; y<h; y++){
-                temp = data[y*w+1];
-                data[y*w+1] = data[y*w+0];
-                data[y*w+0] = temp;
-            }
+    else if (w == 2) {
+        for (int y = 0; y < h; y++) {
+            temp = data[y * w + 1];
+            data[y * w + 1] = data[y * w + 0];
+            data[y * w + 0] = temp;
+        }
     }
 }
 
 void Image::flipY() {
     Pixel temp;
 
-    if(h>2)
+    if (h > 2)
         for (int x = 0; x < w; x++)
             for (int y = 0; y < h / 2; y++) {
                 temp = data[x + y * w];
                 data[x + y * w] = data[x + (h - 1 - y) * w];
                 data[x + (h - 1 - y) * w] = temp;
             }
-    else if(h==2){
-        for(int x =0; x<w; x++){
-            temp = data[(1*w+x)];
-            data[1*w+x] = data[0*w+x];
-            data[0*w+x] = temp;
+    else if (h == 2) {
+        for (int x = 0; x < w; x++) {
+            temp = data[(1 * w + x)];
+            data[1 * w + x] = data[0 * w + x];
+            data[0 * w + x] = temp;
         }
     }
 }
@@ -210,10 +210,15 @@ void Image::scale(int x, int y) {
 
     //TODO:add truncate
 
-    if(x<1)
+    if (x < 1)
         x = 1;
-    if(y<1)
+    if (y < 1)
         y = 1;
+
+    if(x>10000)
+        x=10000;
+    if(y>10000)
+        y=10000;
 
     double x_ratio = w / (double) x;
     double y_ratio = h / (double) y;
@@ -287,7 +292,6 @@ void Image::applyKernel(double kernel[3][3]) {
                                               data[(h - 1) * w + (w - 1)].getB(), 0);
 
 
-
     for (int i = 1; i < h + 1; i++) {
         for (int j = 1; j < w + 1; j++) {
             sumR = 0;
@@ -325,17 +329,17 @@ void Image::blur() {
 }
 
 void Image::sharpen() {
-    double sharpenKer[3][3] = {{-1,  -1, -1},
+    double sharpenKer[3][3] = {{-1, -1, -1},
                                {-1, 9,  -1},
-                               {-1,  -1, -1}};
+                               {-1, -1, -1}};
 
     applyKernel(sharpenKer);
 }
 
 void Image::edgeDetect() {
-    double edgeDetectKer[3][3] = {{0, 1, 0},
-                                  {1, -4,  1},
-                                  {0, 1, 0}};
+    double edgeDetectKer[3][3] = {{0, 1,  0},
+                                  {1, -4, 1},
+                                  {0, 1,  0}};
 
     grayScaleOptimized();
     applyKernel(edgeDetectKer);
