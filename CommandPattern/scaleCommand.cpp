@@ -13,9 +13,6 @@ scaleCommand::~scaleCommand() {
 }
 
 void scaleCommand::execute() {
-    if (percentual != 0)
-        image.scale(percentual);
-    else
         image.scale(x, y);
 }
 
