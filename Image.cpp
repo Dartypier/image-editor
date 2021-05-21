@@ -5,6 +5,7 @@
 #include <iostream>
 #include <algorithm>
 #include <cmath>
+#include "QFileInfo"
 
 using namespace std;
 
@@ -13,13 +14,14 @@ Image::Image(const QString &path) : backData(path), path(path) {
     backData = backData.convertToFormat(QImage::Format_ARGB32); //only 32bit depth supported(auto conversion)
     w = backData.width();                                        //it's a 24bit (8*3) + alpha channel (8bit)
     h = backData.height();
-    size = w * h;
-    data = new Pixel[size];
+    data = new Pixel[getSize()];
     createData();
+    pureFilename();
 }
 
-void Image::pureFilename() { //better name has to be defined
-    filename = path.mid(path.lastIndexOf("/"));
+void Image::pureFilename() {
+    QFileInfo qFilename(path);
+    filename = qFilename.fileName();
 }
 
 void Image::createData() {
@@ -61,7 +63,7 @@ string Image::getFilename() const {
 }
 
 size_t Image::getSize() const {
-    return size;
+    return w*h;
 
 }
 
@@ -78,43 +80,61 @@ void Image::grayScaleOptimized() {
 }
 
 void Image::colorMask(int r, int g, int b) { //accepted from 0 to 100
-    if (is0_100(r) && is0_100(g) && is0_100(b)) {
 
-        for (int i = 0; i < size; i++) {
+    r= truncate0_100(r);
+    g= truncate0_100(g);
+    b= truncate0_100(b);
+
+        for (int i = 0; i < getSize(); i++) {
             data[i] = Pixel(data[i].getR() * (r / double(100)),
                             data[i].getG() * (g / double(100)),
                             data[i].getB() * (b / double(100)),
                             data[i].getA());
         }
-    }
 }
 
 void Image::flipX() {
     Pixel temp;
 
-    for (int y = 0; y < h; y++)
-        for (int x = 0; x < w / 2; x++) {
-            temp = data[x + y * w];
-            data[x + y * w] = data[(w - 1 - x) + y * w];
-            data[(w - 1 - x) + y * w] = temp;
-        }
+    if(w>2)
+        for (int y = 0; y < h; y++)
+            for (int x = 0; x < w / 2; x++) {
+                temp = data[x + y * w];
+                data[x + y * w] = data[(w - 1 - x) + y * w];
+                data[(w - 1 - x) + y * w] = temp;
+            }
+    else if(w==2){
+        for(int y=0; y<h; y++){
+                temp = data[y*w+1];
+                data[y*w+1] = data[y*w+0];
+                data[y*w+0] = temp;
+            }
+    }
 }
 
 void Image::flipY() {
     Pixel temp;
 
-    for (int x = 0; x < w; x++)
-        for (int y = 0; y < h / 2; y++) {
-            temp = data[x + y * w];
-            data[x + y * w] = data[x + (h - 1 - y) * w];
-            data[x + (h - 1 - y) * w] = temp;
+    if(h>2)
+        for (int x = 0; x < w; x++)
+            for (int y = 0; y < h / 2; y++) {
+                temp = data[x + y * w];
+                data[x + y * w] = data[x + (h - 1 - y) * w];
+                data[x + (h - 1 - y) * w] = temp;
+            }
+    else if(h==2){
+        for(int x =0; x<w; x++){
+            temp = data[(1*w+x)];
+            data[1*w+x] = data[0*w+x];
+            data[0*w+x] = temp;
         }
+    }
 }
 
 void Image::brightness(int value) {
     double normalizedValue = truncate_m100_100(value) * 2.55;
 
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < getSize(); i++) {
         data[i] = Pixel(
                 truncate0_255(data[i].getR() + normalizedValue),
                 truncate0_255(data[i].getG() + normalizedValue),
@@ -128,7 +148,7 @@ void Image::contrast(int contrast) {
     double normalizedContrast = truncate_m100_100(contrast) * 2.55;
     double factor = (259.0 * (normalizedContrast + 255)) / (255.0 * (259 - normalizedContrast));
 
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < getSize(); i++) {
         int cr = truncate0_255(factor * (data[i].getR() - 128) + 128);
         int cg = truncate0_255(factor * (data[i].getG() - 128) + 128);
         int cb = truncate0_255(factor * (data[i].getB() - 128) + 128);
@@ -139,9 +159,9 @@ void Image::contrast(int contrast) {
 void Image::flip90Dx() {
 
     backData = QImage(h, w, QImage::Format_RGB32);
-    Pixel *tempArr = new Pixel[size];
+    Pixel *tempArr = new Pixel[getSize()];
 
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < getSize(); i++) {
         tempArr[i] = data[i];
     }
 
@@ -153,14 +173,15 @@ void Image::flip90Dx() {
     w = h;
     h = temp;
 
+
     delete[] tempArr;
 }
 
 void Image::flip90Sx() {
     backData = QImage(h, w, QImage::Format_RGB32);
-    Pixel *tempArr = new Pixel[size];
+    Pixel *tempArr = new Pixel[getSize()];
 
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < getSize(); i++) {
         tempArr[i] = data[i];
     }
 
@@ -187,6 +208,13 @@ void Image::scale(int percentual) {
 void Image::scale(int x, int y) {
     Pixel *newData = new Pixel[x * y];
 
+    //TODO:add truncate
+
+    if(x<1)
+        x = 1;
+    if(y<1)
+        y = 1;
+
     double x_ratio = w / (double) x;
     double y_ratio = h / (double) y;
     double px;
@@ -201,7 +229,6 @@ void Image::scale(int x, int y) {
 
     w = x;
     h = y;
-    size = w * h;
     delete[] data;
     data = newData;
     QImage newImage(reinterpret_cast<const uchar *>(data), w, h, QImage::Format_RGB32);
@@ -258,6 +285,7 @@ void Image::applyKernel(double kernel[3][3]) {
     //dx round below
     temp[(h + 1) * (w + 2) + (w + 1)] = Pixel(data[(h - 1) * w + (w - 1)].getR(), data[(h - 1) * w + (w - 1)].getG(),
                                               data[(h - 1) * w + (w - 1)].getB(), 0);
+
 
 
     for (int i = 1; i < h + 1; i++) {
@@ -334,7 +362,7 @@ void Image::emboss() {
 Pixel *Image::getDeepData() const {
     auto *dataCopy = new Pixel[getSize()];
 
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < getSize(); i++)
         dataCopy[i] = Pixel(data[i]); //call copy constructor for deep copy
 
     return dataCopy;

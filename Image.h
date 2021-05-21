@@ -28,16 +28,14 @@ private:
     QImage backData; //stores backend data infos
     QString path;
     QString filename;
-    int w{0};
-    int h{0};
+    int w;
+    int h;
     Pixel* data;
-    size_t size{0};
+    size_t size;
 
     void createData();
     void pureFilename();
-    size_t getSize() const;
 
-    Pixel* getDeepData() const;
     void setDeepData(Pixel* bakData);
 
     void applyKernel(double[3][3]); //used by kernel processing methods
@@ -50,6 +48,8 @@ public:
 
     string getPath() const;
     string getFilename() const;
+    Pixel* getDeepData() const;
+    size_t getSize() const;
 
     void grayScaleOptimized(); //color optimized (not gray scale average algorithm)
     void colorMask(int r, int g, int b); //values from 0-100
