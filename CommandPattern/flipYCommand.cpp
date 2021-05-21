@@ -1,18 +1,21 @@
 #include "flipYCommand.h"
 
-flipYCommand::flipYCommand(Image &image) : image(image){
+flipYCommand::flipYCommand(Image &image) : image(image) {
     bakData = image.getDeepData();
 }
-flipYCommand::~flipYCommand(){
+
+flipYCommand::~flipYCommand() {
     delete bakData;
 }
 
-void flipYCommand::execute(){
+void flipYCommand::execute() {
     image.flipY();
 }
-void flipYCommand::undo(){
+
+void flipYCommand::undo() {
     image.setDeepData(bakData);
 }
-void flipYCommand::redo(){
+
+void flipYCommand::redo() {
     execute();
 }

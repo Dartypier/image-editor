@@ -1,10 +1,10 @@
 #include "scaleCommand.h"
 
-scaleCommand::scaleCommand(Image &image, int percentual): image(image), percentual(percentual) {
+scaleCommand::scaleCommand(Image &image, int percentual) : image(image), percentual(percentual) {
     bakData = image.getDeepData();
 }
 
-scaleCommand::scaleCommand(Image &image, int x, int y) :image(image), x(x), y(y){
+scaleCommand::scaleCommand(Image &image, int x, int y) : image(image), x(x), y(y) {
     bakData = image.getDeepData();
 }
 
@@ -13,7 +13,7 @@ scaleCommand::~scaleCommand() {
 }
 
 void scaleCommand::execute() {
-    if(percentual!=0)
+    if (percentual != 0)
         image.scale(percentual);
     else
         image.scale(x, y);

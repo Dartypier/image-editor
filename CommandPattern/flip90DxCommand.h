@@ -4,17 +4,20 @@
 #include "ICommand.h"
 #include "../Image.h"
 
-class flip90DxCommand : public ICommand{
+class flip90DxCommand : public ICommand {
 private:
-    Image& image;
-    Pixel* bakData;
+    Image &image;
+    Pixel *bakData;
 
 public:
-    explicit flip90DxCommand(Image& image);
+    explicit flip90DxCommand(Image &image);
+
     ~flip90DxCommand() override;
 
     void execute() override;
+
     void undo() override;
+
     void redo() override;
 };
 

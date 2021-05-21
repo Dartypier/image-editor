@@ -1,6 +1,6 @@
 #include "edgeDetectCommand.h"
 
-edgeDetectCommand::edgeDetectCommand(Image &image):image(image) {
+edgeDetectCommand::edgeDetectCommand(Image &image) : image(image) {
     bakData = image.getDeepData();
 }
 

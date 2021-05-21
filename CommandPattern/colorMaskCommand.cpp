@@ -5,8 +5,7 @@
 #include "colorMaskCommand.h"
 
 colorMaskCommand::colorMaskCommand(Image &image, int r, int g, int b) :
-    image(image), r(r), g(g), b(b)
-{
+        image(image), r(r), g(g), b(b) {
     bakData = image.getDeepData();
 }
 

@@ -4,17 +4,20 @@
 #include "ICommand.h"
 #include "../Image.h"
 
-class blurCommand : public ICommand{
+class blurCommand : public ICommand {
 private:
-    Image& image;
-    Pixel* bakData;
+    Image &image;
+    Pixel *bakData;
 
 public:
-    explicit blurCommand(Image& image);
+    explicit blurCommand(Image &image);
+
     ~blurCommand() override;
 
     void execute() override;
+
     void undo() override;
+
     void redo() override;
 };
 

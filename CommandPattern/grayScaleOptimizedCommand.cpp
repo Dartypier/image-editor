@@ -1,6 +1,6 @@
 #include "grayScaleOptimizedCommand.h"
 
-grayScaleOptimizedCommand::grayScaleOptimizedCommand(Image &image) : image(image){
+grayScaleOptimizedCommand::grayScaleOptimizedCommand(Image &image) : image(image) {
     //bakData = new Pixel[image.getFileSize()];
     //memcpy(bakData, image.data, sizeof(Pixel)*image.getFileSize());
     bakData = image.getDeepData();

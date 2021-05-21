@@ -1,6 +1,6 @@
 #include "flipXCommand.h"
 
-flipXCommand::flipXCommand(Image &image) :image(image){
+flipXCommand::flipXCommand(Image &image) : image(image) {
     bakData = image.getDeepData();
 }
 

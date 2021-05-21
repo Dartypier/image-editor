@@ -4,17 +4,20 @@
 #include "ICommand.h"
 #include "../Image.h"
 
-class sharpenCommand :public ICommand{
+class sharpenCommand : public ICommand {
 private:
-    Image& image;
-    Pixel* bakData;
+    Image &image;
+    Pixel *bakData;
 
 public:
-    explicit sharpenCommand(Image& image);
+    explicit sharpenCommand(Image &image);
+
     ~sharpenCommand() override;
 
     void execute() override;
+
     void undo() override;
+
     void redo() override;
 };
 

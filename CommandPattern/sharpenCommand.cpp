@@ -1,6 +1,6 @@
 #include "sharpenCommand.h"
 
-sharpenCommand::sharpenCommand(Image &image) :image(image) {
+sharpenCommand::sharpenCommand(Image &image) : image(image) {
     bakData = image.getDeepData();
 }
 

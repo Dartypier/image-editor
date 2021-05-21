@@ -4,17 +4,20 @@
 #include "ICommand.h"
 #include "../Image.h"
 
-class grayScaleOptimizedCommand: public ICommand {
+class grayScaleOptimizedCommand : public ICommand {
 private:
-    Image& image;
-    Pixel* bakData;
+    Image &image;
+    Pixel *bakData;
 
 public:
-    explicit grayScaleOptimizedCommand(Image& image);
+    explicit grayScaleOptimizedCommand(Image &image);
+
     ~grayScaleOptimizedCommand() override;
 
     void execute() override;
+
     void undo() override;
+
     void redo() override;
 };
 
