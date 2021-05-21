@@ -1,21 +1,20 @@
 #include "gtest/gtest.h"
 #include "../Pixel.h"
 
-class TestPixel: public ::testing::Test{
+class TestPixel : public ::testing::Test {
 
 protected:
     Pixel solid;
     Pixel alpha;
     Pixel out;
 
-    TestPixel():
-        solid(78, 200, 15, 255),
-        alpha(78, 200, 15, 100),
-        out(-20, 90, 255, 258)
-        {}
+    TestPixel() :
+            solid(78, 200, 15, 255),
+            alpha(78, 200, 15, 100),
+            out(-20, 90, 255, 258) {}
 };
 
-TEST_F(TestPixel,  Ctor){
+TEST_F(TestPixel, Ctor) {
 
     Pixel pix = Pixel(10, 30, 50, 255);
     Pixel pix1 = Pixel(300, 20, -163, -1);
@@ -31,7 +30,7 @@ TEST_F(TestPixel,  Ctor){
     EXPECT_EQ(pix1.getA(), 255);
 }
 
-TEST_F(TestPixel, NoParamCtor){
+TEST_F(TestPixel, NoParamCtor) {
 
     Pixel pix = Pixel();
     EXPECT_EQ(pix.getR(), 0);
@@ -40,7 +39,7 @@ TEST_F(TestPixel, NoParamCtor){
     EXPECT_EQ(pix.getA(), 0);
 }
 
-TEST_F(TestPixel, CPYCtor){
+TEST_F(TestPixel, CPYCtor) {
 
     Pixel pix = Pixel(solid);
     EXPECT_EQ(pix, solid);
@@ -48,41 +47,41 @@ TEST_F(TestPixel, CPYCtor){
     EXPECT_EQ(pix, alpha);
 }
 
-TEST_F(TestPixel, Equal){
+TEST_F(TestPixel, Equal) {
 
     Pixel pix = Pixel(alpha);
-    EXPECT_FALSE(solid==alpha);
-    EXPECT_TRUE(pix==alpha);
+    EXPECT_FALSE(solid == alpha);
+    EXPECT_TRUE(pix == alpha);
 }
 
-TEST_F(TestPixel, NotEqual){
+TEST_F(TestPixel, NotEqual) {
 
     Pixel pix = Pixel(alpha);
-    EXPECT_TRUE(solid!=alpha);
-    EXPECT_FALSE(pix!=alpha);
+    EXPECT_TRUE(solid != alpha);
+    EXPECT_FALSE(pix != alpha);
 }
 
-TEST_F(TestPixel, GETR){
+TEST_F(TestPixel, GETR) {
     ASSERT_EQ(solid.getR(), 78);
     EXPECT_EQ(out.getR(), 236);
 }
 
-TEST_F(TestPixel, GETG){
+TEST_F(TestPixel, GETG) {
     ASSERT_EQ(solid.getG(), 200);
     EXPECT_EQ(out.getG(), 90);
 }
 
-TEST_F(TestPixel, GETB){
+TEST_F(TestPixel, GETB) {
     ASSERT_EQ(solid.getB(), 15);
     EXPECT_EQ(out.getB(), 255);
 }
 
-TEST_F(TestPixel, GETA){
+TEST_F(TestPixel, GETA) {
     ASSERT_EQ(solid.getA(), 255);
     EXPECT_EQ(out.getA(), 2);
 }
 
-TEST_F(TestPixel, ToQColor){
+TEST_F(TestPixel, ToQColor) {
     QColor color_solid = Pixel::toQColor(solid);
     QColor color_alpha = Pixel::toQColor(alpha);
 
@@ -106,15 +105,15 @@ TEST_F(TestPixel, ToQColor){
     EXPECT_EQ(alpha.getA(), a);
 }
 
-TEST_F(TestPixel, FromQColor){
+TEST_F(TestPixel, FromQColor) {
 
     QColor color_alpha = QColor(1, 20, 255, 60);
     Pixel pix = Pixel::fromQColor(color_alpha);
 
-    ASSERT_EQ(pix.getR(), 1) <<+pix.getR();
+    ASSERT_EQ(pix.getR(), 1) << +pix.getR();
     ASSERT_EQ(pix.getG(), 20) << +pix.getG();
     ASSERT_EQ(pix.getB(), 255) << +pix.getB();
-    ASSERT_EQ(pix.getA(), 60)<<+pix.getA();
+    ASSERT_EQ(pix.getA(), 60) << +pix.getA();
 
     //cannot check out_of_range values because if ctor parametrs of QColor are invalid
     //an invalid object(not usable) is created

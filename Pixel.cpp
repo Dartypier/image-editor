@@ -1,22 +1,25 @@
 #include "Pixel.h"
 #include "utils.h"
 
-Pixel::Pixel(uint8_t r, uint8_t g, uint8_t b, uint8_t a):
-    r(r), g(g), b(b), a(a){}
+Pixel::Pixel(uint8_t r, uint8_t g, uint8_t b, uint8_t a) :
+        r(r), g(g), b(b), a(a) {}
 
-Pixel::Pixel() : Pixel(0, 0, 0, 0){}
+Pixel::Pixel() : Pixel(0, 0, 0, 0) {}
 
-uint8_t Pixel::getR() const {return r;}
-uint8_t Pixel::getG() const {return g;}
-uint8_t Pixel::getB() const {return b;}
-uint8_t Pixel::getA() const {return a;}
+uint8_t Pixel::getR() const { return r; }
 
-QColor Pixel::toQColor(const Pixel& oldc) {
+uint8_t Pixel::getG() const { return g; }
+
+uint8_t Pixel::getB() const { return b; }
+
+uint8_t Pixel::getA() const { return a; }
+
+QColor Pixel::toQColor(const Pixel &oldc) {
     QColor newc(oldc.getR(), oldc.getG(), oldc.getB(), oldc.getA());
     return newc;
 }
 
-Pixel Pixel::fromQColor(const QColor& oldc) {
+Pixel Pixel::fromQColor(const QColor &oldc) {
     int rc;
     int gc;
     int bc;
@@ -41,12 +44,12 @@ Pixel::Pixel(const Pixel &color) {
     this->a = color.getA();
 }
 
-bool Pixel::operator==(const Pixel &pixel) const{
+bool Pixel::operator==(const Pixel &pixel) const {
 
-    if(getR()==pixel.getR() &&
-        getG()==pixel.getG() &&
-        getB()==pixel.getB() &&
-        getA()==pixel.getA())
+    if (getR() == pixel.getR() &&
+        getG() == pixel.getG() &&
+        getB() == pixel.getB() &&
+        getA() == pixel.getA())
         return true;
     else
         return false;

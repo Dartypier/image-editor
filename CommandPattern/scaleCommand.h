@@ -4,19 +4,23 @@
 #include "ICommand.h"
 #include "../Image.h"
 
-class scaleCommand : public ICommand{
+class scaleCommand : public ICommand {
 private:
-    Image& image;
-    Pixel* bakData;
+    Image &image;
+    Pixel *bakData;
     int percentual{0}, x{0}, y{0};
 
 public:
-    scaleCommand(Image& image, int percentual);
-    scaleCommand(Image& image, int x, int y);
+    scaleCommand(Image &image, int percentual);
+
+    scaleCommand(Image &image, int x, int y);
+
     ~scaleCommand() override;
 
     void execute() override;
+
     void undo() override;
+
     void redo() override;
 };
 
