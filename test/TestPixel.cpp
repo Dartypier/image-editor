@@ -36,7 +36,7 @@ TEST_F(TestPixel, NoParamCtor) {
     EXPECT_EQ(pix.getR(), 0);
     EXPECT_EQ(pix.getG(), 0);
     EXPECT_EQ(pix.getB(), 0);
-    EXPECT_EQ(pix.getA(), 0);
+    EXPECT_EQ(pix.getA(), 255);
 }
 
 TEST_F(TestPixel, CPYCtor) {

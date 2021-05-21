@@ -4,7 +4,7 @@
 Pixel::Pixel(uint8_t r, uint8_t g, uint8_t b, uint8_t a) :
         r(r), g(g), b(b), a(a) {}
 
-Pixel::Pixel() : Pixel(0, 0, 0, 0) {}
+Pixel::Pixel() : Pixel(0, 0, 0, 255) {}
 
 uint8_t Pixel::getR() const { return r; }
 
