@@ -19,7 +19,9 @@ private:
 
 public:
     void execute(std::shared_ptr<ICommand> command);
+
     void undo();
+
     void redo();
 };
 

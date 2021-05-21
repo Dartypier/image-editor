@@ -1,6 +1,6 @@
 #include "brightnessCommand.h"
 
-brightnessCommand::brightnessCommand(Image &image, int value):image(image), value(value) {
+brightnessCommand::brightnessCommand(Image &image, int value) : image(image), value(value) {
     bakData = image.getDeepData();
 }
 

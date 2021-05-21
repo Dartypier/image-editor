@@ -4,18 +4,21 @@
 #include "ICommand.h"
 #include "../Image.h"
 
-class contrastCommand : public ICommand{
+class contrastCommand : public ICommand {
 private:
-    Image& image;
-    Pixel* bakData;
+    Image &image;
+    Pixel *bakData;
     int contrast;
 
 public:
-    explicit contrastCommand(Image& image, int conrast);
+    explicit contrastCommand(Image &image, int conrast);
+
     ~contrastCommand() override;
 
     void execute() override;
+
     void undo() override;
+
     void redo() override;
 };
 

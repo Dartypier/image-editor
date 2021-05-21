@@ -1,6 +1,6 @@
 #include "flip90DxCommand.h"
 
-flip90DxCommand::flip90DxCommand(Image &image) : image(image){
+flip90DxCommand::flip90DxCommand(Image &image) : image(image) {
     bakData = image.getDeepData();
 }
 

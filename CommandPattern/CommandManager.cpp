@@ -11,7 +11,7 @@ void CommandManager::execute(std::shared_ptr<ICommand> command) {
 }
 
 void CommandManager::undo() {
-    if(undoStack.empty())
+    if (undoStack.empty())
         return;
 
     undoStack.top()->undo();
@@ -20,7 +20,7 @@ void CommandManager::undo() {
 }
 
 void CommandManager::redo() {
-    if(redoStack.empty())
+    if (redoStack.empty())
         return;
 
     redoStack.top()->redo();

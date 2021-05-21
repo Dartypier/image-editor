@@ -4,17 +4,20 @@
 #include "ICommand.h"
 #include "../Image.h"
 
-class embossCommand : public ICommand{
+class embossCommand : public ICommand {
 private:
-    Image& image;
-    Pixel* bakData;
+    Image &image;
+    Pixel *bakData;
 
 public:
-    explicit embossCommand(Image& image);
+    explicit embossCommand(Image &image);
+
     ~embossCommand() override;
 
     void execute() override;
+
     void undo() override;
+
     void redo() override;
 };
 

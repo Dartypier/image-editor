@@ -1,6 +1,6 @@
 #include "blurCommand.h"
 
-blurCommand::blurCommand(Image &image) : image(image){
+blurCommand::blurCommand(Image &image) : image(image) {
     bakData = image.getDeepData();
 }
 

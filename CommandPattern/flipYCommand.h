@@ -4,17 +4,20 @@
 #include "ICommand.h"
 #include "../Image.h"
 
-class flipYCommand : public ICommand{
+class flipYCommand : public ICommand {
 private:
-    Image& image;
-    Pixel* bakData;
+    Image &image;
+    Pixel *bakData;
 
 public:
-    explicit flipYCommand(Image& image);
+    explicit flipYCommand(Image &image);
+
     ~flipYCommand() override;
 
     void execute() override;
+
     void undo() override;
+
     void redo() override;
 };
 
