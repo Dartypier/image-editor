@@ -85,7 +85,34 @@ TEST_F(ImageTest, GrayScale) {
 
 TEST_F(ImageTest, ColorMask) {
 
-    //
+    Pixel tempData[2*3] ={
+            Pixel(32, 25, 6, 255), Pixel(51, 0, 0, 255), Pixel(17, 4, 42, 255),
+            Pixel(48, 9, 62, 255), Pixel(5, 6, 59, 255), Pixel(17, 25, 65, 255)
+    };
+
+    ASSERT_EQ(not_uni.getSize(), 6);
+
+    not_uni.colorMask(20, 10, 30);
+    Pixel* data = not_uni.getDeepData();
+
+    for(int i=0; i<6;i++)
+        EXPECT_EQ(data[i], tempData[i]);
+}
+
+TEST_F(ImageTest, ColorMaskOutOfRange) {
+
+    Pixel tempData[2*3] ={
+            Pixel(0, 25, 20, 255), Pixel(0, 0, 0, 255), Pixel(0, 4, 143, 255),
+            Pixel(0, 9, 207, 255), Pixel(0, 6, 197, 255), Pixel(0, 25, 218, 255)
+    };
+
+    ASSERT_EQ(not_uni.getSize(), 6);
+
+    not_uni.colorMask(-20, 10, 130);
+    Pixel* data = not_uni.getDeepData();
+
+    for(int i=0; i<6;i++)
+        EXPECT_EQ(data[i], tempData[i]);
 }
 
 TEST_F(ImageTest, FlipX) {
