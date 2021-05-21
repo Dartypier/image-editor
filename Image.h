@@ -80,7 +80,6 @@ public:
 
     void contrast(int contrast); //allowed -100 - 100
     void brightness(int value); //allowed -100 - 100
-    void scale(int percentual);
 
     void scale(int x, int y);
 

@@ -196,19 +196,8 @@ void Image::flip90Sx() {
     delete[] tempArr;
 }
 
-void Image::scale(int percentual) {
-
-    //TODO: add limits
-    int x = w + w * (percentual / 100);
-    int y = h + h * (percentual / 100);
-
-    scale(x, y);
-}
-
 void Image::scale(int x, int y) {
     Pixel *newData = new Pixel[x * y];
-
-    //TODO:add truncate
 
     if (x < 1)
         x = 1;
