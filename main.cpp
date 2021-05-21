@@ -10,20 +10,17 @@ using namespace std;
 int main() {
 
     Image test(PATH + IMAGE);
-//    CommandManager commandManager;
-//
-//    std::shared_ptr<ICommand> c1(new flipXCommand(test));
-//    std::shared_ptr<ICommand> c2(new edgeDetectCommand(test));
-//
-//    commandManager.execute(c1);
-//    commandManager.execute(c2);
-//    commandManager.undo();
-//    commandManager.redo();
+    CommandManager commandManager;
 
-//    test.save(PATH + OUT);
+    std::shared_ptr<ICommand> c1(new flipXCommand(test));
+    std::shared_ptr<ICommand> c2(new edgeDetectCommand(test));
 
-test.scale(4, 2);
-test.save(PATH + OUT);
+    commandManager.execute(c1);
+    commandManager.execute(c2);
+    commandManager.undo();
+    commandManager.redo();
+
+    test.save(PATH + OUT);
 
     return 0;
 }
