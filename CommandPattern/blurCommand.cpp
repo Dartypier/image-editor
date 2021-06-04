@@ -1,21 +1,27 @@
 #include "blurCommand.h"
+#include "utils.h"
 
-blurCommand::blurCommand(Image &image) : image(image) {
-    bakData = image.getDeepData();
-}
-
-blurCommand::~blurCommand() {
-    delete bakData;
+blurCommand::blurCommand(Image &image) : image(image), pixelBuffer(image.getPixelBuffer()) {
+    backupPixelBuffer = pixelBuffer;
 }
 
 void blurCommand::execute() {
-    image.blur();
+    blur();
 }
 
 void blurCommand::undo() {
-    image.setDeepData(bakData);
+    pixelBuffer = backupPixelBuffer;
 }
 
 void blurCommand::redo() {
     execute();
+}
+
+void blurCommand::blur(){
+
+    double blurKer[3][3] = {{1 / 9.0, 1 / 9.0, 1 / 9.0},
+                            {1 / 9.0, 1 / 9.0, 1 / 9.0},
+                            {1 / 9.0, 1 / 9.0, 1 / 9.0}};
+
+    applyKernel(blurKer, image, pixelBuffer);
 }

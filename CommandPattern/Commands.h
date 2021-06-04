@@ -6,12 +6,12 @@
 #define IMAGE_EDITOR_COMMANDS_H
 
 #include "CommandManager.h"
-#include "grayScaleOptimizedCommand.h"
+#include "grayScaleCommand.h"
 #include "colorMaskCommand.h"
 #include "flipXCommand.h"
 #include "flipYCommand.h"
-#include "flip90SxCommand.h"
-#include "flip90DxCommand.h"
+#include "rotateAntiClockwiseCommand.h"
+#include "rotateClockwiseCommand.h"
 #include "contrastCommand.h"
 #include "brightnessCommand.h"
 #include "scaleCommand.h"

@@ -1,21 +1,27 @@
 #include "sharpenCommand.h"
+#include "utils.h"
 
-sharpenCommand::sharpenCommand(Image &image) : image(image) {
-    bakData = image.getDeepData();
-}
-
-sharpenCommand::~sharpenCommand() {
-    delete bakData;
+sharpenCommand::sharpenCommand(Image &image) : image(image), pixelBuffer(image.getPixelBuffer()) {
+    backupPixelBuffer = pixelBuffer;
 }
 
 void sharpenCommand::execute() {
-    image.sharpen();
+    sharpen();
 }
 
 void sharpenCommand::undo() {
-    image.setDeepData(bakData);
+    pixelBuffer = backupPixelBuffer;
 }
 
 void sharpenCommand::redo() {
     execute();
+}
+
+void sharpenCommand::sharpen(){
+
+    double sharpenKer[3][3] = {{-1, -1, -1},
+                               {-1, 9,  -1},
+                               {-1, -1, -1}};
+
+    applyKernel(sharpenKer, image, pixelBuffer);
 }

@@ -118,3 +118,18 @@ TEST_F(TestPixel, FromQColor) {
     //cannot check out_of_range values because if ctor parametrs of QColor are invalid
     //an invalid object(not usable) is created
 }
+
+TEST_F(TestPixel, SetPixel){
+
+    solid.setPixel(2, 2, 2, 2);
+    ASSERT_EQ(solid.getR(), 2);
+    ASSERT_EQ(solid.getG(), 2);
+    ASSERT_EQ(solid.getB(), 2);
+    ASSERT_EQ(solid.getA(), 2);
+
+    solid.setPixel(-2, 270, 0, 172);
+    ASSERT_EQ(solid.getR(), 0);
+    ASSERT_EQ(solid.getG(), 255);
+    ASSERT_EQ(solid.getB(), 0);
+    ASSERT_EQ(solid.getA(), 172);
+}

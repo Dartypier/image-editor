@@ -7,18 +7,19 @@
 class embossCommand : public ICommand {
 private:
     Image &image;
-    Pixel *bakData;
+    std::vector<Pixel>& pixelBuffer;
+    std::vector<Pixel> backupPixelBuffer;
 
 public:
     explicit embossCommand(Image &image);
-
-    ~embossCommand() override;
 
     void execute() override;
 
     void undo() override;
 
     void redo() override;
+
+    void emboss();
 };
 
 

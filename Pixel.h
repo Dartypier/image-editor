@@ -32,6 +32,8 @@ public:
 
     uint8_t getA() const;
 
+    void setPixel(int r, int g, int b, int a);
+
     static QColor toQColor(const Pixel &);
 
     static Pixel fromQColor(const QColor &);

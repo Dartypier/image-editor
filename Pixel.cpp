@@ -58,3 +58,11 @@ bool Pixel::operator==(const Pixel &pixel) const {
 bool Pixel::operator!=(const Pixel &pixel) const {
     return !operator==(pixel);
 }
+
+void Pixel::setPixel(int r, int g, int b, int a) {
+
+    this->r = truncate0_255(r);
+    this->g = truncate0_255(g);
+    this->b = truncate0_255(b);
+    this->a = truncate0_255(a);
+}

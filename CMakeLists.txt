@@ -29,8 +29,8 @@ set(SOURCES
         Pixel.cpp
         Pixel.h
         CommandPattern/ICommand.h
-        CommandPattern/grayScaleOptimizedCommand.cpp
-        CommandPattern/grayScaleOptimizedCommand.h
+        CommandPattern/grayScaleCommand.cpp
+        CommandPattern/grayScaleCommand.h
         CommandPattern/CommandManager.cpp
         CommandPattern/CommandManager.h
         CommandPattern/Commands.h
@@ -40,10 +40,10 @@ set(SOURCES
         CommandPattern/flipXCommand.h
         CommandPattern/flipYCommand.cpp
         CommandPattern/flipYCommand.h
-        CommandPattern/flip90SxCommand.cpp
-        CommandPattern/flip90SxCommand.h
-        CommandPattern/flip90DxCommand.cpp
-        CommandPattern/flip90DxCommand.h
+        CommandPattern/rotateAntiClockwiseCommand.cpp
+        CommandPattern/rotateAntiClockwiseCommand.h
+        CommandPattern/rotateClockwiseCommand.cpp
+        CommandPattern/rotateClockwiseCommand.h
         CommandPattern/contrastCommand.cpp
         CommandPattern/contrastCommand.h
         CommandPattern/brightnessCommand.cpp
@@ -57,7 +57,7 @@ set(SOURCES
         CommandPattern/edgeDetectCommand.cpp
         CommandPattern/edgeDetectCommand.h
         CommandPattern/embossCommand.cpp
-        CommandPattern/embossCommand.h)
+        CommandPattern/embossCommand.h CommandPattern/utils.cpp CommandPattern/utils.h)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 

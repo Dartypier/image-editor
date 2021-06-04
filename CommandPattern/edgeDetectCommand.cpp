@@ -1,21 +1,28 @@
 #include "edgeDetectCommand.h"
+#include "utils.h"
 
-edgeDetectCommand::edgeDetectCommand(Image &image) : image(image) {
-    bakData = image.getDeepData();
-}
-
-edgeDetectCommand::~edgeDetectCommand() {
-    delete bakData;
+edgeDetectCommand::edgeDetectCommand(Image &image) : image(image), pixelBuffer(image.getPixelBuffer()) {
+    backupPixelBuffer = pixelBuffer;
 }
 
 void edgeDetectCommand::execute() {
-    image.edgeDetect();
+    edgeDetect();
 }
 
 void edgeDetectCommand::undo() {
-    image.setDeepData(bakData);
+    pixelBuffer = backupPixelBuffer;
 }
 
 void edgeDetectCommand::redo() {
     execute();
+}
+
+void edgeDetectCommand::edgeDetect() {
+
+    double edgeDetectKer[3][3] = {{0, 1,  0},
+                                  {1, -4, 1},
+                                  {0, 1,  0}};
+
+    //grayScaleOptimized();
+    applyKernel(edgeDetectKer, image, pixelBuffer);
 }

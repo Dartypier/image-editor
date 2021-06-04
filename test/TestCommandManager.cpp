@@ -26,28 +26,27 @@ TEST_F(TestCommandManager, Execute) {
     std::shared_ptr<ICommand> c1(new flipYCommand(img));
     commandManager.execute(c1);
 
-    Pixel *data = img.getDeepData();
+    std::vector<Pixel> pixelBuffer = img.getPixelBuffer();
 
     ASSERT_EQ(img.getSize(), 6);
 
     for (int i = 0; i < img.getSize(); i++)
-        EXPECT_EQ(data[i], flippedData[i]);
+        EXPECT_EQ(pixelBuffer[i], flippedData[i]);
 }
 
 TEST_F(TestCommandManager, Undo) {
 
-    Pixel *originalData = img.getDeepData();
+    std::vector<Pixel> pixelBuffer = img.getPixelBuffer();
+    std::vector<Pixel> originalPixelBuffer = pixelBuffer;
 
     std::shared_ptr<ICommand> c1(new flipYCommand(img));
     commandManager.execute(c1);
     commandManager.undo();
 
-    Pixel *data = img.getDeepData();
-
     ASSERT_EQ(img.getSize(), 6);
 
     for (int i = 0; i < img.getSize(); i++)
-        EXPECT_EQ(data[i], originalData[i]);
+        EXPECT_EQ(pixelBuffer[i], originalPixelBuffer[i]);
 }
 
 TEST_F(TestCommandManager, Redo) {
@@ -59,7 +58,7 @@ TEST_F(TestCommandManager, Redo) {
     std::shared_ptr<ICommand> c1(new flipYCommand(img));
     commandManager.execute(c1);
 
-    Pixel *data = img.getDeepData();
+    std::vector<Pixel> pixelBuffer = img.getPixelBuffer();
     //undo command
     commandManager.undo();
     //redo command
@@ -68,5 +67,5 @@ TEST_F(TestCommandManager, Redo) {
     ASSERT_EQ(img.getSize(), 6);
 
     for (int i = 0; i < img.getSize(); i++)
-        EXPECT_EQ(data[i], flippedData[i]);
+        EXPECT_EQ(pixelBuffer[i], flippedData[i]);
 }

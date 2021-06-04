@@ -1,19 +1,17 @@
-#ifndef IMAGE_EDITOR_SCALECOMMAND_H
-#define IMAGE_EDITOR_SCALECOMMAND_H
+#ifndef IMAGE_EDITOR_ROTATEANTICLOCKWISECOMMAND_H
+#define IMAGE_EDITOR_ROTATEANTICLOCKWISECOMMAND_H
 
 #include "ICommand.h"
 #include "../Image.h"
 
-class scaleCommand : public ICommand {
+class rotateAntiClockwiseCommand : public ICommand {
 private:
     Image &image;
     std::vector<Pixel>& pixelBuffer;
     std::vector<Pixel> backupPixelBuffer;
-    int x;
-    int y;
 
 public:
-    scaleCommand(Image &image, int x, int y);
+    explicit rotateAntiClockwiseCommand(Image &image);
 
     void execute() override;
 
@@ -21,7 +19,7 @@ public:
 
     void redo() override;
 
-    void scale();
+    void rotateAnticlockwise();
 };
 
 

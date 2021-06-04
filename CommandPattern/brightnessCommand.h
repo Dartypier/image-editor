@@ -7,19 +7,20 @@
 class brightnessCommand : public ICommand {
 private:
     Image &image;
-    Pixel *bakData;
+    std::vector<Pixel>& pixelBuffer;
+    std::vector<Pixel> backupPixelBuffer;
     int value;
 
 public:
     explicit brightnessCommand(Image &image, int value);
-
-    ~brightnessCommand() override;
 
     void execute() override;
 
     void undo() override;
 
     void redo() override;
+
+    void brightness();
 };
 
 
