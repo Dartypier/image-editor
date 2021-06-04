@@ -38,7 +38,7 @@ void Image::initPixelBuffer() {
 
 void Image::save(const QString &outPath, int quality) {
 
-    rawImage = QImage(w, h, QImage::Format_RGB32);
+    rawImage = QImage(w, h, QImage::Format_ARGB32);
 
     for (int y = 0; y < h; y++) //rows
         for (int x = 0; x < w; x++) { //columns
