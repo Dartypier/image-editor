@@ -27,7 +27,7 @@ void applyKernel(double kernel[3][3], Image& image, std::vector<Pixel>& pixelBuf
     }
 
     for (int i = 1; i < w + 1; i++) //upper (not round)
-        tempPixelBuffer[0 * (w + 2) + i] = pixelBuffer[(h - 1) * w + (i - 1)];
+        tempPixelBuffer[0 * (w + 2) + i] = pixelBuffer[0 * w + (i - 1)];
 
 //                Pixel(data[0 * w + (i - 1)].getR(), data[0 * w + (i - 1)].getG(),
 //                                      data[0 * w + (i - 1)].getB(), 0);
@@ -39,7 +39,7 @@ void applyKernel(double kernel[3][3], Image& image, std::vector<Pixel>& pixelBuf
 //                                            data[(h - 1) * w + (i - 1)].getB(), 0);
 
     for (int i = 1; i < h + 1; i++) //sx
-        tempPixelBuffer[i * (w + 2) + 0] = pixelBuffer[(i - 1) * w + (w - 1)];
+        tempPixelBuffer[i * (w + 2) + 0] = pixelBuffer[(i - 1) * w + 0];
 
 //                Pixel(data[(i - 1) * w + 0].getR(), data[(i - 1) * w + 0].getG(),
 //                                      data[(i - 1) * w + 0].getB(), 0);

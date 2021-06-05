@@ -1,13 +1,18 @@
 #include "Image.h"
 #include "CommandPattern/Commands.h"
 
-#define PATH QStringLiteral("../test/test-images/") //foler path
-#define IMAGE QStringLiteral("not_uni.png") //filename
+#include "chrono"
+#include <iostream>
+
+#define PATH QStringLiteral("../image-test/") //foler path
+#define IMAGE QStringLiteral("foscal.png") //filename
 #define OUT QStringLiteral("out.png") //output file
 
-using namespace std;
+using namespace std::chrono;
 
 int main() {
+
+    auto start = high_resolution_clock::now();
 
     Image test(PATH + IMAGE);
     CommandManager commandManager;
@@ -17,6 +22,10 @@ int main() {
     commandManager.execute(c1);
 
     test.save(PATH + OUT);
+
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<milliseconds>(stop - start);
+    cout << duration.count() << endl;
 
     return 0;
 }
