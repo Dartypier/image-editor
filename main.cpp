@@ -5,8 +5,8 @@
 #include <iostream>
 
 #define PATH QStringLiteral("../image-test/") //foler path
-#define IMAGE QStringLiteral("foscal.png") //filename
-#define OUT QStringLiteral("out.png") //output file
+#define IMAGE QStringLiteral("test.jpg") //filename
+#define OUT QStringLiteral("out.jpg") //output file
 
 using namespace std::chrono;
 
@@ -17,7 +17,7 @@ int main() {
     Image test(PATH + IMAGE);
     CommandManager commandManager;
 
-    std::shared_ptr<ICommand> c1(new grayScaleCommand(test));
+    std::shared_ptr<ICommand> c1(new sharpenCommand(test));
 
     commandManager.execute(c1);
 

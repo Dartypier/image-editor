@@ -11,6 +11,8 @@ private:
     std::vector<Pixel> backupPixelBuffer;
     int r, g, b;
 
+    void colorMask();
+
 public:
     explicit colorMaskCommand(Image &, int r, int g, int b);
 
@@ -19,8 +21,6 @@ public:
     void undo() override;
 
     void redo() override;
-
-    void colorMask();
 };
 
 

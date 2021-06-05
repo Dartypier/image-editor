@@ -1,5 +1,6 @@
 #include "edgeDetectCommand.h"
 #include "utils.h"
+#include "grayScaleCommand.h"
 
 edgeDetectCommand::edgeDetectCommand(Image &image) : image(image), pixelBuffer(image.getPixelBuffer()) {
     backupPixelBuffer = pixelBuffer;
@@ -23,6 +24,7 @@ void edgeDetectCommand::edgeDetect() {
                                   {1, -4, 1},
                                   {0, 1,  0}};
 
-    //grayScaleOptimized();
+    grayScaleCommand grayScaleC(image);
+    grayScaleC.execute();
     applyKernel(edgeDetectKer, image, pixelBuffer);
 }

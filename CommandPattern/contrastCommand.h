@@ -11,6 +11,8 @@ private:
     std::vector<Pixel> backupPixelBuffer;
     int contrastValue;
 
+    void contrast();
+
 public:
     explicit contrastCommand(Image &image, int conrast);
 
@@ -19,8 +21,6 @@ public:
     void undo() override;
 
     void redo() override;
-
-    void contrast();
 };
 
 

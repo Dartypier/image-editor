@@ -10,6 +10,8 @@ private:
     std::vector<Pixel>& pixelBuffer;
     std::vector<Pixel> backupPixelBuffer;
 
+    void emboss();
+
 public:
     explicit embossCommand(Image &image);
 
@@ -19,7 +21,7 @@ public:
 
     void redo() override;
 
-    void emboss();
+
 };
 
 

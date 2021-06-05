@@ -12,6 +12,8 @@ private:
     int x;
     int y;
 
+    void scale();
+
 public:
     scaleCommand(Image &image, int x, int y);
 
@@ -20,8 +22,6 @@ public:
     void undo() override;
 
     void redo() override;
-
-    void scale();
 };
 
 

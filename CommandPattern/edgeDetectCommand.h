@@ -10,6 +10,8 @@ private:
     std::vector<Pixel>& pixelBuffer;
     std::vector<Pixel> backupPixelBuffer;
 
+    void edgeDetect();
+
 public:
     explicit edgeDetectCommand(Image &image);
 
@@ -19,7 +21,7 @@ public:
 
     void redo() override;
 
-    void edgeDetect();
+
 };
 
 

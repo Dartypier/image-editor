@@ -11,6 +11,8 @@ private:
     std::vector<Pixel> backupPixelBuffer;
     int value;
 
+    void brightness();
+
 public:
     explicit brightnessCommand(Image &image, int value);
 
@@ -19,8 +21,6 @@ public:
     void undo() override;
 
     void redo() override;
-
-    void brightness();
 };
 
 

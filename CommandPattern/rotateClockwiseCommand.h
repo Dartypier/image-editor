@@ -10,6 +10,8 @@ private:
     std::vector<Pixel>& pixelBuffer;
     std::vector<Pixel> backupPixelBuffer;
 
+    void rotateClockwise();
+
 public:
     explicit rotateClockwiseCommand(Image &image);
 
@@ -18,8 +20,6 @@ public:
     void undo() override;
 
     void redo() override;
-
-    void rotateClockwise();
 };
 
 
