@@ -33,4 +33,5 @@ void flipXCommand::flipX() {
             pixelBuffer[y * image.getW() + 0] = temp;
         }
     }
+
 }

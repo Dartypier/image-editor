@@ -1,4 +1,4 @@
-#define PATH QStringLiteral("../../test/test-images/")
+#define PATH QStringLiteral("/home/jacopo/CLionProjects/image_editor/backend/test/test-images/")
 
 #include "gtest/gtest.h"
 #include "../Image.h"
@@ -15,12 +15,12 @@ protected:
 TEST_F(CommandsTest, BlurCommand){
 
      Pixel validated_not_uni[2*3] = {
-             Pixel(138, 120, 131, 255), Pixel(130, 120, 153, 255), Pixel(86, 108, 159, 255),
-             Pixel(148, 102, 152, 255), Pixel(130, 120, 153, 255), Pixel(86, 132, 168, 255)
+             Pixel(180, 138, 75, 255), Pixel(146, 108, 102, 255), Pixel(112, 78, 129, 255),
+             Pixel(174, 108, 138, 255), Pixel(130, 120, 153, 255), Pixel(86, 132, 168, 255)
      };
 
      blurCommand blurC(not_uni);
-     blurC.blur();
+     blurC.execute();
      std::vector<Pixel> pixelBuffer = not_uni.getPixelBuffer();
 
     ASSERT_EQ(not_uni.getSize(), 2 * 3);
@@ -37,7 +37,7 @@ TEST_F(CommandsTest, BrightnessCommand){
     };
 
     brightnessCommand brightnessC(not_uni, 50);
-    brightnessC.brightness();
+    brightnessC.execute();
     std::vector<Pixel> pixelBuffer = not_uni.getPixelBuffer();
 
     ASSERT_EQ(not_uni.getSize(), 2 * 3);
@@ -54,7 +54,7 @@ TEST_F(CommandsTest, BrightnessCommandOutOfRangeNegative) {
     };
 
     brightnessCommand brightnessC(not_uni, -120);
-    brightnessC.brightness();
+    brightnessC.execute();
     std::vector<Pixel> pixelBuffer = not_uni.getPixelBuffer();
 
     ASSERT_EQ(not_uni.getSize(), 6);
@@ -70,7 +70,7 @@ TEST_F(CommandsTest, BrightnessCommandOutOfRangePositive) {
     };
 
     brightnessCommand brightnessC(not_uni, 120);
-    brightnessC.brightness();
+    brightnessC.execute();
     std::vector<Pixel> pixelBuffer = not_uni.getPixelBuffer();
 
     ASSERT_EQ(not_uni.getSize(), 6);
@@ -88,7 +88,7 @@ TEST_F(CommandsTest, ColorMaskCommand) {
     ASSERT_EQ(not_uni.getSize(), 6);
 
     colorMaskCommand colorMaskC(not_uni, 20, 10, 30);
-    colorMaskC.colorMask();
+    colorMaskC.execute();
     std::vector<Pixel> pixelBuffer = not_uni.getPixelBuffer();
 
     for(int i=0; i<6;i++)
@@ -105,7 +105,7 @@ TEST_F(CommandsTest, ColorMaskCommandOutOfRange) {
     ASSERT_EQ(not_uni.getSize(), 6);
 
     colorMaskCommand colorMaskC(not_uni, -20, 10, 130);
-    colorMaskC.colorMask();
+    colorMaskC.execute();
     std::vector<Pixel> pixelBuffer = not_uni.getPixelBuffer();
 
     for(int i=0; i<6;i++)
@@ -121,7 +121,7 @@ TEST_F(CommandsTest, ContrastCommand) {
     };
 
     contrastCommand contrastC(not_uni, 20);
-    contrastC.contrast();
+    contrastC.execute();
     std::vector<Pixel> pixelBuffer = not_uni.getPixelBuffer();
 
     ASSERT_EQ(not_uni.getSize(), 6);
@@ -138,7 +138,7 @@ TEST_F(CommandsTest, ContrastCommandOutOFRangePositive) {
     };
 
     contrastCommand contrastC(not_uni, 120);
-    contrastC.contrast();
+    contrastC.execute();
     std::vector<Pixel> pixelBuffer = not_uni.getPixelBuffer();
 
     ASSERT_EQ(not_uni.getSize(), 6);
@@ -155,7 +155,7 @@ TEST_F(CommandsTest, ContrastCommandOutOfRangeNegative) {
     };
 
     contrastCommand contrastC(not_uni, -120);
-    contrastC.contrast();
+    contrastC.execute();
     std::vector<Pixel> pixelBuffer = not_uni.getPixelBuffer();
 
     ASSERT_EQ(not_uni.getSize(), 6);
@@ -167,12 +167,12 @@ TEST_F(CommandsTest, ContrastCommandOutOfRangeNegative) {
 TEST_F(CommandsTest, EdgeDetectCommand) {
 
     Pixel validated_not_unit[2 * 3] = {
-            Pixel(184, 0, 255, 255), Pixel(0, 255, 255, 255), Pixel(170, 255, 7, 255),
-            Pixel(0, 255, 0, 255), Pixel(255, 166, 0, 255), Pixel(0, 0, 0, 255)
+            Pixel(0, 0, 0, 255), Pixel(176, 176, 176, 255), Pixel(154, 154, 154, 255),
+            Pixel(14, 14, 14, 255), Pixel(214, 214, 214, 255), Pixel(0, 0, 0, 255)
     };
 
     edgeDetectCommand edgeDetectC(not_uni);
-    edgeDetectC.edgeDetect();
+    edgeDetectC.execute();
     std::vector<Pixel> pixelBuffer = not_uni.getPixelBuffer();
 
     ASSERT_EQ(not_uni.getSize(), 2 * 3);
@@ -184,12 +184,12 @@ TEST_F(CommandsTest, EdgeDetectCommand) {
 TEST_F(CommandsTest, EmbossCommand) {
 
     Pixel validated_not_uni[2 * 3] = {
-            Pixel(57, 0, 231, 255), Pixel(0, 109, 145, 255), Pixel(45, 255, 255, 255),
-            Pixel(138, 0, 255, 255), Pixel(0, 255, 255, 255), Pixel(0, 255, 255, 255)
+            Pixel(65, 0, 255, 255), Pixel(0, 0, 255, 255), Pixel(0, 255, 255, 255),
+            Pixel(0, 0, 255, 255), Pixel(0, 255, 255, 255), Pixel(0, 255, 255, 255)
     };
 
     embossCommand embossC(not_uni);
-    embossC.emboss();
+    embossC.execute();
     std::vector<Pixel> pixelBuffer = not_uni.getPixelBuffer();
 
     ASSERT_EQ(not_uni.getSize(), 2 * 3);
@@ -206,7 +206,7 @@ TEST_F(CommandsTest, FlipXCommand) {
             Pixel(88, 255, 218, 255),Pixel(25, 61, 197, 255), Pixel(243, 94, 207, 255)};
 
     flipXCommand flipXC(not_uni);
-    flipXC.flipX();
+    flipXC.execute();
     std::vector<Pixel> pixelBuffer = not_uni.getPixelBuffer();
 
     ASSERT_EQ(not_uni.getSize(), 6);
@@ -223,7 +223,7 @@ TEST_F(CommandsTest, FlipYCommand) {
             Pixel(161, 255, 20, 255), Pixel(255, 0, 0, 255), Pixel(87, 42, 143, 255)};
 
     flipYCommand flipYC(not_uni);
-    flipYC.flipY();
+    flipYC.execute();
     std::vector<Pixel> pixelBuffer = not_uni.getPixelBuffer();
 
     ASSERT_EQ(not_uni.getSize(), 6);
@@ -240,7 +240,7 @@ TEST_F(CommandsTest, grayScale){
     };
 
     grayScaleCommand grayScaleC(not_uni);
-    grayScaleC.grayScale();
+    grayScaleC.execute();
     std::vector<Pixel> pixelBuffer = not_uni.getPixelBuffer();
 
     ASSERT_EQ(not_uni.getSize(), 6);
@@ -256,7 +256,7 @@ TEST_F(CommandsTest, RotateClockwiseCommand) {
             Pixel(88, 255, 218, 255), Pixel(87, 42, 143, 255)};
 
     rotateClockwiseCommand rotateClockwiseC(not_uni);
-    rotateClockwiseC.rotateClockwise();
+    rotateClockwiseC.execute();
     std::vector<Pixel> pixelBuffer = not_uni.getPixelBuffer();
 
     ASSERT_EQ(not_uni.getSize(), 6);
@@ -273,7 +273,7 @@ TEST_F(CommandsTest, RotateAntiClockwiseCommand) {
             Pixel(161, 255, 20, 255), Pixel(243, 94, 207, 255)};
 
     rotateAntiClockwiseCommand rotateAntiClockwiseC(not_uni);
-    rotateAntiClockwiseC.rotateAnticlockwise();
+    rotateAntiClockwiseC.execute();
     std::vector<Pixel> pixelBuffer = not_uni.getPixelBuffer();
 
     ASSERT_EQ(not_uni.getSize(), 6);
@@ -289,7 +289,7 @@ TEST_F(CommandsTest, ScaleDownCommand) {
     };
 
     scaleCommand scaleC(not_uni, 2, 1);
-    scaleC.scale();
+    scaleC.execute();
     std::vector<Pixel> pixelBuffer = not_uni.getPixelBuffer();
 
     ASSERT_EQ(not_uni.getSize(), 2);
@@ -305,7 +305,7 @@ TEST_F(CommandsTest, ScaleUpCommand) {
     };
 
     scaleCommand scaleC(not_uni, 4, 2);
-    scaleC.scale();
+    scaleC.execute();
     std::vector<Pixel> pixelBuffer = not_uni.getPixelBuffer();
 
     ASSERT_EQ(not_uni.getSize(), 8);
@@ -316,12 +316,12 @@ TEST_F(CommandsTest, ScaleUpCommand) {
 TEST_F(CommandsTest, SharpenCommand) {
 
     Pixel validated_not_uni[2 * 3] = {
-            Pixel(255, 255, 0, 255), Pixel(255, 0, 0, 255), Pixel(40, 0, 0, 255),
+            Pixel(0, 255, 0, 255), Pixel(255, 0, 0, 255), Pixel(0, 0, 225, 255),
             Pixel(255, 0, 255, 255), Pixel(0, 0, 255, 255), Pixel(49, 255, 255, 255)
     };
 
     sharpenCommand sharpenC(not_uni);
-    sharpenC.sharpen();
+    sharpenC.execute();
     std::vector<Pixel> pixelBuffer = not_uni.getPixelBuffer();
 
     ASSERT_EQ(not_uni.getSize(), 2 * 3);

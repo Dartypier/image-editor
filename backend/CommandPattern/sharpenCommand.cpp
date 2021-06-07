@@ -24,4 +24,5 @@ void sharpenCommand::sharpen(){
                                {-1, -1, -1}};
 
     applyKernel(sharpenKer, image, pixelBuffer);
+
 }

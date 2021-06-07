@@ -24,4 +24,5 @@ void embossCommand::emboss() {
                               {0,  1,  2}};
 
     applyKernel(embossKer, image, pixelBuffer);
+
 }

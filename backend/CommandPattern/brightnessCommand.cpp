@@ -26,4 +26,5 @@ void brightnessCommand::brightness(){
                                 pixelBuffer[i].getB() + normalizedValue,
                                 pixelBuffer[i].getA());
     }
+
 }

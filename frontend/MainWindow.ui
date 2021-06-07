@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Image Editor</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/icons/resources/icon.png</normaloff>:/icons/resources/icon.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QGraphicsView" name="graphicsView"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionOpen"/>
+    <addaction name="actionSave_as"/>
+    <addaction name="actionSave"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <widget class="QMenu" name="menuRotation">
+     <property name="title">
+      <string>Rotation</string>
+     </property>
+     <addaction name="actionRotate_Clockwise"/>
+     <addaction name="actionRotate_anticlockwise"/>
+    </widget>
+    <widget class="QMenu" name="menuFlip">
+     <property name="title">
+      <string>Flip</string>
+     </property>
+     <addaction name="actionFlip_x"/>
+     <addaction name="actionFlip_y"/>
+    </widget>
+    <widget class="QMenu" name="menuColor">
+     <property name="title">
+      <string>Color</string>
+     </property>
+     <addaction name="actionGrayscale"/>
+     <addaction name="actionColormask"/>
+     <addaction name="actionBrightness"/>
+     <addaction name="actionContrast"/>
+    </widget>
+    <addaction name="actionUndo"/>
+    <addaction name="actionRedo"/>
+    <addaction name="menuRotation"/>
+    <addaction name="menuFlip"/>
+    <addaction name="menuColor"/>
+    <addaction name="actionScale"/>
+   </widget>
+   <widget class="QMenu" name="menuFilters">
+    <property name="title">
+     <string>Filters</string>
+    </property>
+    <addaction name="actionBlur"/>
+    <addaction name="actionSharpen"/>
+    <addaction name="actionEmboss"/>
+    <addaction name="actionEdge_detect"/>
+   </widget>
+   <widget class="QMenu" name="menuAbout">
+    <property name="title">
+     <string>About</string>
+    </property>
+    <addaction name="actionAbout_Image_Editor"/>
+    <addaction name="actionAbout_Qt"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuFilters"/>
+   <addaction name="menuAbout"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionUndo"/>
+   <addaction name="actionRedo"/>
+   <addaction name="separator"/>
+   <addaction name="actionZoomInc"/>
+   <addaction name="actionZoomDec"/>
+   <addaction name="actionZoom_Adapt"/>
+   <addaction name="separator"/>
+   <addaction name="actionColor_Picker"/>
+  </widget>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </action>
+  <action name="actionSave_as">
+   <property name="text">
+    <string>Save as</string>
+   </property>
+  </action>
+  <action name="actionUndo">
+   <property name="icon">
+    <iconset>
+     <normalon>:/icons/resources/undo.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Undo</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Z</string>
+   </property>
+  </action>
+  <action name="actionRedo">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/resources/redo.png</normaloff>:/icons/resources/redo.png</iconset>
+   </property>
+   <property name="text">
+    <string>Redo</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+Z</string>
+   </property>
+  </action>
+  <action name="actionAbout_Image_Editor">
+   <property name="text">
+    <string>About Image Editor</string>
+   </property>
+  </action>
+  <action name="actionAbout_Qt">
+   <property name="text">
+    <string>About Qt</string>
+   </property>
+  </action>
+  <action name="actionRotate_Clockwise">
+   <property name="text">
+    <string>Rotate clockwise</string>
+   </property>
+  </action>
+  <action name="actionRotate_anticlockwise">
+   <property name="text">
+    <string>Rotate anticlockwise</string>
+   </property>
+  </action>
+  <action name="actionFlip_x">
+   <property name="text">
+    <string>Flip X</string>
+   </property>
+  </action>
+  <action name="actionFlip_y">
+   <property name="text">
+    <string>Flip Y</string>
+   </property>
+  </action>
+  <action name="actionGrayscale">
+   <property name="text">
+    <string>Grayscale</string>
+   </property>
+  </action>
+  <action name="actionColormask">
+   <property name="text">
+    <string>Colormask</string>
+   </property>
+  </action>
+  <action name="actionBrightness">
+   <property name="text">
+    <string>Brightness</string>
+   </property>
+  </action>
+  <action name="actionContrast">
+   <property name="text">
+    <string>Contrast</string>
+   </property>
+  </action>
+  <action name="actionScale">
+   <property name="text">
+    <string>Scale</string>
+   </property>
+  </action>
+  <action name="actionBlur">
+   <property name="text">
+    <string>Blur</string>
+   </property>
+  </action>
+  <action name="actionSharpen">
+   <property name="text">
+    <string>Sharpen</string>
+   </property>
+  </action>
+  <action name="actionEmboss">
+   <property name="text">
+    <string>Emboss</string>
+   </property>
+  </action>
+  <action name="actionEdge_detect">
+   <property name="text">
+    <string>Edge detect</string>
+   </property>
+  </action>
+  <action name="actionZoomInc">
+   <property name="icon">
+    <iconset>
+     <normalon>:/icons/resources/zoom-in.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Zoom +</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+=</string>
+   </property>
+  </action>
+  <action name="actionZoomDec">
+   <property name="icon">
+    <iconset>
+     <normalon>:/icons/resources/zoom-out.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Zoom -</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+-</string>
+   </property>
+  </action>
+  <action name="actionZoom_Adapt">
+   <property name="icon">
+    <iconset>
+     <normalon>:/icons/resources/zoom-adapt.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Zoom Adapt</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Return</string>
+   </property>
+  </action>
+  <action name="actionColor_Picker">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/resources/picker.png</normaloff>:/icons/resources/picker.png</iconset>
+   </property>
+   <property name="text">
+    <string>Color Picker</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
+ <connections/>
+</ui>

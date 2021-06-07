@@ -25,4 +25,5 @@ void grayScaleCommand::grayScale() {
 
             pixelBuffer[y * image.getW() + x].setPixel(gray, gray, gray, pixelBuffer[y * image.getW() + x].getA());
         }
+
 }

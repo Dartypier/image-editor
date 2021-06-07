@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.19)
 
-add_subdirectory(./lib/)
+add_subdirectory(lib)
 set(gtest_SOURCE_DIR ./lib/gooltest)
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 

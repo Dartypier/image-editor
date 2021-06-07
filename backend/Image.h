@@ -29,9 +29,9 @@ public:
     void save(const QString &outPath, int quality = -1); //-1 auto compression //0-100 quality range
     Image(Image &image) = delete;
 
-    string getPath() const;
+    QString getPath() const;
 
-    string getFilename() const;
+    QString getFilename() const;
 
     std::vector<Pixel>& getPixelBuffer();
 
@@ -45,6 +45,10 @@ public:
     void setH(int h);
 
     void swapDimension();
+
+    void updateBuffer();
+
+    QImage& getQImage();
 };
 
 

@@ -27,4 +27,5 @@ void edgeDetectCommand::edgeDetect() {
     grayScaleCommand grayScaleC(image);
     grayScaleC.execute();
     applyKernel(edgeDetectKer, image, pixelBuffer);
+
 }

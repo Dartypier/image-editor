@@ -5,11 +5,17 @@
 #include <algorithm>
 #include <cmath>
 #include "QFileInfo"
+#include <QErrorMessage>
 
 using namespace std;
 
 Image::Image(const QString &path) : rawImage(path), path(path) {
     //TODO: add exception
+    if(rawImage.isNull()){
+//        QErrorMessage imgNotValid;
+//        imgNotValid.showMessage("Image is not valid");
+        cout<< "no Image" <<endl;
+    }
     rawImage = rawImage.convertToFormat(QImage::Format_ARGB32); //only 32bit depth supported(auto conversion)
     w = rawImage.width();                                        //it's a 24bit (8*3) + alpha channel (8bit)
     h = rawImage.height();
@@ -49,12 +55,12 @@ void Image::save(const QString &outPath, int quality) {
     rawImage.save(outPath, nullptr, quality);
 }
 
-string Image::getPath() const {
-    return path.toStdString();
+QString Image::getPath() const {
+    return path;
 }
 
-string Image::getFilename() const {
-    return filename.toStdString();
+QString Image::getFilename() const {
+    return filename;
 }
 
 size_t Image::getSize() const {
@@ -85,4 +91,18 @@ std::vector<Pixel>& Image::getPixelBuffer() {
 
 void Image::swapDimension() {
     swap(h, w);
+}
+
+void Image::updateBuffer(){
+    rawImage = QImage(w, h, QImage::Format_ARGB32);
+
+    for (int y = 0; y < h; y++) //rows
+        for (int x = 0; x < w; x++) { //columns
+            rawImage.setPixelColor(x, y, Pixel::toQColor(pixelBuffer[y * w + x]));
+        }
+}
+
+QImage& Image::getQImage(){
+
+    return rawImage;
 }

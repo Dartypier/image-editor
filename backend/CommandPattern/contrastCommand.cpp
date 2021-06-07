@@ -28,4 +28,5 @@ void contrastCommand::contrast() {
                                 factor * (pixelBuffer[i].getB() - 128) + 128,
                                 pixelBuffer[i].getA());
     }
+
 }

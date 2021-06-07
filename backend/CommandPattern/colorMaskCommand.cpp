@@ -29,4 +29,5 @@ void colorMaskCommand::colorMask() {
                                 pixelBuffer[i].getB() * (b/100.0),
                                 pixelBuffer[i].getA());
     }
+
 }
