@@ -4,9 +4,9 @@
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
-#include <QWheelEvent>
+#include <QLabel>
+#include <QCloseEvent>
 #include "../backend/Image.h"
-//#include "../backend/CommandPattern/CommandManager.h"
 #include "../backend/CommandPattern/Commands.h"
 
 namespace Ui {
@@ -58,9 +58,12 @@ private slots:
 
     void on_actionSave_as_triggered();
 
+    void on_actionAbout_Image_Editor_triggered();
+
+    void on_actionAbout_Qt_triggered();
 
 protected slots:
-    void resizeEvent(QResizeEvent *event) override;
+//    void resizeEvent(QResizeEvent *event) override;
     void zoomUpdate(bool increment);
 
 private:
@@ -75,8 +78,12 @@ private:
 
     QList<double> zoomList;
 
+    QLabel imageName;
+    QLabel imageSize;
+
 protected:
     void closeEvent(QCloseEvent *event) override;
+    void updateStatusBar();
 };
 
 #endif // MAINWINDOW_H

@@ -121,7 +121,6 @@
    <addaction name="actionZoomDec"/>
    <addaction name="actionZoom_Adapt"/>
    <addaction name="separator"/>
-   <addaction name="actionColor_Picker"/>
   </widget>
   <action name="actionOpen">
    <property name="text">
@@ -270,15 +269,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Return</string>
-   </property>
-  </action>
-  <action name="actionColor_Picker">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/icons/resources/picker.png</normaloff>:/icons/resources/picker.png</iconset>
-   </property>
-   <property name="text">
-    <string>Color Picker</string>
    </property>
   </action>
   <action name="actionSave">

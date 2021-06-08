@@ -83,6 +83,12 @@ void Image::setH(int h){
     this->h = h;
 }
 
+void Image::setPath(QString path)
+{
+    this->path = path;
+    pureFilename();
+}
+
 //pass a reference (no copy, better performance)
 std::vector<Pixel>& Image::getPixelBuffer() {
 

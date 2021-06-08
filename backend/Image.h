@@ -44,6 +44,8 @@ public:
     void setW(int w);
     void setH(int h);
 
+    void setPath(QString path);
+
     void swapDimension();
 
     void updateBuffer();

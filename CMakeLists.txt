@@ -65,6 +65,8 @@ set(FRONTEND
         frontend/MainWindow.cpp
         frontend/MainWindow.h
         frontend/MainWindow.ui
+#        frontend/InputDialog.h
+#        frontend/InputDialog.cpp
         frontend/resources.qrc)
 
 add_executable(${PROJECT_NAME} ${BACKEND} ${FRONTEND})

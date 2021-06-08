@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/icons">
         <file>resources/icon.png</file>
-        <file>resources/picker.png</file>
         <file>resources/zoom-out.png</file>
         <file>resources/zoom-in.png</file>
         <file>resources/zoom-adapt.png</file>
