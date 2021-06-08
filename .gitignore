@@ -1,5 +1,6 @@
 # Project exclude paths
-/cmake-build-debug/
+/cmake-build*
 /image-test/
 UML_progetto_info.mdj
-/test/lib/
+/backend/test/lib/
+/.idea
