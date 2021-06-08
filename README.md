@@ -5,5 +5,5 @@
 Image editor written in C++ and Qt5 for Uni project
 
 
-- Backend 90/100
+- Backend 100/100
 - Frontend 0/100
