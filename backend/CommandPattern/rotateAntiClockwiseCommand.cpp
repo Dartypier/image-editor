@@ -9,6 +9,7 @@ void rotateAntiClockwiseCommand::execute() {
 
 void rotateAntiClockwiseCommand::undo() {
     pixelBuffer = backupPixelBuffer;
+    image.swapDimension();
 }
 
 void rotateAntiClockwiseCommand::redo() {

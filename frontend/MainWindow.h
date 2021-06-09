@@ -62,6 +62,14 @@ private slots:
 
     void on_actionAbout_Qt_triggered();
 
+    void on_actionContrast_triggered();
+
+    void on_actionBrightness_triggered();
+
+    void on_actionColormask_triggered();
+
+    void on_actionScale_triggered();
+
 protected slots:
 //    void resizeEvent(QResizeEvent *event) override;
     void zoomUpdate(bool increment);

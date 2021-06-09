@@ -18,11 +18,14 @@ private:
     commandStack redoStack;
 
 public:
-    void execute(std::shared_ptr<ICommand> command);
+    void execute(const std::shared_ptr<ICommand>& command);
 
     void undo();
 
     void redo();
+
+    bool isUndoStackEmpty();
+    bool isRedoStackEmpty();
 };
 
 
