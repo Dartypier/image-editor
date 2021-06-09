@@ -10,7 +10,9 @@ void scaleCommand::execute() {
 }
 
 void scaleCommand::undo() {
-    backupPixelBuffer = pixelBuffer;
+    pixelBuffer = backupPixelBuffer;
+    image.setW(backupW);
+    image.setH(backupH);
 }
 
 void scaleCommand::redo() {
@@ -44,7 +46,10 @@ void scaleCommand::scale() {
             newPixelBuffer[i * x + j] = pixelBuffer[(int) ((py * image.getW()) + px)];
         }
 
+    backupW = image.getW();
     image.setW(x);
+
+    backupH = image.getH();
     image.setH(y);
 
     pixelBuffer = newPixelBuffer;

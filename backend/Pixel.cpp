@@ -27,13 +27,6 @@ Pixel Pixel::fromQColor(const QColor &oldc) {
 
     oldc.getRgb(&rc, &gc, &bc, &ac);
 
-    //if QCOlor parameters are invalid, the color is invalid
-    //TODO: provide exception for invalid color?
-//    rc = truncate0_255(rc);
-//    gc = truncate0_255(gc);
-//    bc = truncate0_255(bc);
-//    ac = truncate0_255(ac);
-
     return Pixel(rc, gc, bc, ac);
 }
 

@@ -19,6 +19,7 @@ private:
     int h;
     std::vector<Pixel> pixelBuffer;
     size_t size{0};
+    bool isImageValid;
 
     void initPixelBuffer();
     void pureFilename();
@@ -26,7 +27,7 @@ private:
 public:
     explicit Image(const QString &path);
 
-    void save(const QString &outPath, int quality = -1); //-1 auto compression //0-100 quality range
+    bool save(const QString &outPath, int quality = -1); //-1 auto compression //0-100 quality range
     Image(Image &image) = delete;
 
     QString getPath() const;
@@ -51,6 +52,8 @@ public:
     void updateBuffer();
 
     QImage& getQImage();
+
+    bool isValid() const;
 };
 
 

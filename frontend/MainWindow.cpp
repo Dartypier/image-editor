@@ -3,6 +3,11 @@
 #include <QFileDialog>
 #include <QDebug>
 #include <QMessageBox>
+#include <QInputDialog>
+#include <QList>
+#include "InputDialog.h"
+
+//TODO: check posible Stack error!
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -12,10 +17,24 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->graphicsView->hide();
     ui->statusbar->hide();
+
+    //disable action not used before Image upload
+    ui->actionSave->setEnabled(false);
+    ui->actionSave_as->setEnabled(false);
+
+    ui->actionRedo->setEnabled(false);
+    ui->actionUndo->setEnabled(false);
+    ui->actionZoomInc->setEnabled(false);
+    ui->actionZoomDec->setEnabled(false);
+    ui->actionZoom_Adapt->setEnabled(false);
+    ui->menuEdit->setEnabled(false);
+    ui->menuFilters->setEnabled(false);
+
     ui->statusbar->addPermanentWidget(&imageName);
     ui->statusbar->addPermanentWidget(&imageSize);
     activeImage.reset();
 
+    //geometric zoom list
     zoomList << 1.0 << 1.5 << 2.2 << 3.3 << 4.7 << 6.8;
     zoomList << 10 << 15 << 22 << 33 << 47 << 68;
     zoomList << 100 << 150 << 220 << 330 << 470 << 680;
@@ -35,79 +54,117 @@ void MainWindow::on_actionOpen_triggered()
     if(!imagePath.isEmpty()){
         activeImage.reset(new Image(imagePath));
 
-        qDebug() << activeImage->getFilename();
+        if(activeImage->isValid()){
 
+            qDebug() << activeImage->getFilename();
 
-        scene.clear();
-        pixmapItem = scene.addPixmap(QPixmap::fromImage(activeImage->getQImage()));
-        scene.setSceneRect(0,0, activeImage->getW(), activeImage->getH());
-        ui->graphicsView->setScene(&scene);
+            scene.clear();
+            pixmapItem = scene.addPixmap(QPixmap::fromImage(activeImage->getQImage()));
+            scene.setSceneRect(0, 0, activeImage->getW(), activeImage->getH());
+            ui->graphicsView->setScene(&scene);
 
-
-
-
-        if(ui->graphicsView->isHidden())
             ui->graphicsView->show();
 
-        ui->graphicsView->fitInView(pixmapItem, Qt::KeepAspectRatio);
-        updateStatusBar();
-        ui->statusbar->show();
+            updateStatusBar();
+            ui->statusbar->show();
+            ui->graphicsView->fitInView(pixmapItem, Qt::KeepAspectRatio);
+
+            ui->actionRedo->setEnabled(false);
+            ui->actionUndo->setEnabled(false);
+            ui->actionSave->setEnabled(false);
+            ui->actionSave_as->setEnabled(true);
+            ui->actionZoomInc->setEnabled(true);
+            ui->actionZoomDec->setEnabled(true);
+            ui->actionZoom_Adapt->setEnabled(true);
+            ui->menuEdit->setEnabled(true);
+            ui->menuFilters->setEnabled(true);
+            pendingSaveModifications = false;
+        }
+        else {
+            activeImage.reset();
+            scene.clear();
+            ui->graphicsView->hide();
+            ui->statusbar->hide();
+
+            ui->actionSave->setEnabled(false);
+            ui->actionSave_as->setEnabled(false);
+            ui->actionRedo->setEnabled(false);
+            ui->actionUndo->setEnabled(false);
+            ui->actionZoomInc->setEnabled(false);
+            ui->actionZoomDec->setEnabled(false);
+            ui->actionZoom_Adapt->setEnabled(false);
+            ui->menuEdit->setEnabled(false);
+            ui->menuFilters->setEnabled(false);
+
+            QMessageBox::critical(this, APP_NAME,
+                                  "The image is not Valid.",
+                                  QMessageBox::Ok);
+        }
     }
 }
 
 void MainWindow::zoomUpdate(bool increment)
 {
-    double zoom = ui->graphicsView->transform().m11() *100;
+    if(activeImage!= nullptr) {
+        double zoom = ui->graphicsView->transform().m11() * 100;
 
-    if(increment) {
-        for(double z: zoomList) {
-            if ((z-z/10) > zoom) {
-                zoom = z;
-                break;
+        if (increment) {
+            for (double z: zoomList) {
+                if ((z - z / 10) > zoom) {
+                    zoom = z;
+                    break;
+                }
+            }
+        } else {
+
+            for (int i = zoomList.count() - 1; i > 0; i--) {
+                double zoomIt = zoomList[i];
+
+                if ((zoomIt + zoomIt / 10) < zoom) {
+                    zoom = zoomIt;
+                    break;
+                }
+                qDebug() << "inside zoom out " << zoom;
             }
         }
+
+        ui->graphicsView->setTransform(QTransform::fromScale(zoom / 100, zoom / 100));
     }
-
-    else{
-
-        for(int i=zoomList.count()-1; i>0; i--){
-            double zoomIt = zoomList[i];
-
-            if((zoomIt+zoomIt/10) < zoom) {
-                zoom = zoomIt;
-                break;
-            }
-            qDebug() <<"inside zoom out " << zoom;
-        }
-    }
-
-    ui->graphicsView->setTransform(QTransform::fromScale(zoom/100, zoom/100));
 }
 
 void MainWindow::updateStatusBar()
 {
-    if(activeImage.get()!=nullptr){
+    if(activeImage!=nullptr){
         imageName.setText(activeImage->getFilename());
         imageSize.setText(QString("%1x%2")
-                          .arg(activeImage->getH())
-                          .arg(activeImage->getW()));
+                          .arg(activeImage->getW())
+                          .arg(activeImage->getH()));
     }
 }
 
 void MainWindow::on_actionSave_as_triggered()
 {
-    QString filename = QFileDialog::getSaveFileName(this,
-        "",
-        activeImage->getFilename(),
-        tr("Images (*.jpg *.png *.bmp)"));
+    if(activeImage!= nullptr){
+        QString filename = QFileDialog::getSaveFileName(this,
+            "",
+            activeImage->getFilename(),
+            tr("Images (*.jpg *.png *.bmp)"));
 
-    if(!filename.isEmpty()){
-        activeImage->save(filename);
-        activeImage->setPath(filename);
-        updateStatusBar();
+        if(!filename.isEmpty()){
+            if(activeImage->save(filename)) {
+                activeImage->setPath(filename);
+                updateStatusBar();
+
+                pendingSaveModifications = false;
+                ui->actionSave->setEnabled(false);
+            }
+            else{
+                QMessageBox::critical(this, APP_NAME,
+                                      "The path is not valid. Please check the image format.",
+                                      QMessageBox::Ok);
+            }
+        }
     }
-
-    pendingSaveModifications = false;
 }
 
 //void MainWindow::resizeEvent(QResizeEvent *event)
@@ -119,150 +176,216 @@ void MainWindow::on_actionSave_as_triggered()
 
 void MainWindow::on_actionZoom_Adapt_triggered()
 {
-    if(!ui->graphicsView->isHidden())
+    if(activeImage!= nullptr)
         ui->graphicsView->fitInView(pixmapItem, Qt::KeepAspectRatio);
 }
 
 void MainWindow::on_actionZoomInc_triggered()
 {
-    zoomUpdate(true);
-    qDebug() << "Zoom In";
+    if(activeImage!= nullptr) {
+        zoomUpdate(true);
+        qDebug() << "Zoom In";
+    }
 }
 
-void MainWindow::on_actionZoomDec_triggered()
-{
-    zoomUpdate(false);
-    qDebug() << "Zoom out";
+void MainWindow::on_actionZoomDec_triggered() {
+
+    if (activeImage != nullptr) {
+        zoomUpdate(false);
+        qDebug() << "Zoom out";
+    }
 }
 
 void MainWindow::on_actionRotate_Clockwise_triggered()
 {
-    std::shared_ptr<ICommand> c1(new rotateClockwiseCommand(*activeImage));
-    commandManager.execute(c1);
-    qDebug() << "rotate clockwise";
-    activeImage->updateBuffer();
-    pixmapItem->setPixmap(QPixmap::fromImage(activeImage->getQImage()));
-    scene.setSceneRect(0,0, activeImage->getW(), activeImage->getH());
-    on_actionZoom_Adapt_triggered();
-    updateStatusBar();
+    if(activeImage!= nullptr) {
+        std::shared_ptr<ICommand> c1(new rotateClockwiseCommand(*activeImage));
+        commandManager.execute(c1);
+        qDebug() << "rotate clockwise";
+        activeImage->updateBuffer();
+        pixmapItem->setPixmap(QPixmap::fromImage(activeImage->getQImage()));
+        scene.setSceneRect(0, 0, activeImage->getW(), activeImage->getH());
+        on_actionZoom_Adapt_triggered();
+        updateStatusBar();
 
-    pendingSaveModifications = true;
+        pendingSaveModifications = true;
+        ui->actionSave->setEnabled(true);
+        ui->actionUndo->setEnabled(true);
+        ui->actionRedo->setEnabled(false);
+    }
 }
 
 void MainWindow::on_actionRotate_anticlockwise_triggered()
 {
-    std::shared_ptr<ICommand> c1(new rotateAntiClockwiseCommand(*activeImage));
-    commandManager.execute(c1);
-    qDebug() << "rotate clockwise";
-    activeImage->updateBuffer();
-    pixmapItem->setPixmap(QPixmap::fromImage(activeImage->getQImage()));
-    scene.setSceneRect(0,0, activeImage->getW(), activeImage->getH());
-    on_actionZoom_Adapt_triggered();
-    updateStatusBar();
+    if(activeImage!= nullptr) {
+        std::shared_ptr<ICommand> c1(new rotateAntiClockwiseCommand(*activeImage));
+        commandManager.execute(c1);
+        qDebug() << "rotate clockwise";
+        activeImage->updateBuffer();
+        pixmapItem->setPixmap(QPixmap::fromImage(activeImage->getQImage()));
+        scene.setSceneRect(0, 0, activeImage->getW(), activeImage->getH());
+        on_actionZoom_Adapt_triggered();
+        updateStatusBar();
 
-    pendingSaveModifications = true;
+        pendingSaveModifications = true;
+        ui->actionSave->setEnabled(true);
+        ui->actionUndo->setEnabled(true);
+        ui->actionRedo->setEnabled(false);
+    }
 }
 
 void MainWindow::on_actionFlip_x_triggered()
 {
-    std::shared_ptr<ICommand> c1(new flipXCommand(*activeImage));
-    commandManager.execute(c1);
-    qDebug() << "rotate clockwise";
-    activeImage->updateBuffer();
-    pixmapItem->setPixmap(QPixmap::fromImage(activeImage->getQImage()));
+    if(activeImage!= nullptr) {
+        std::shared_ptr<ICommand> c1(new flipXCommand(*activeImage));
+        commandManager.execute(c1);
+        qDebug() << "rotate clockwise";
+        activeImage->updateBuffer();
+        pixmapItem->setPixmap(QPixmap::fromImage(activeImage->getQImage()));
 
-    pendingSaveModifications = true;
+        pendingSaveModifications = true;
+        ui->actionSave->setEnabled(true);
+        ui->actionUndo->setEnabled(true);
+        ui->actionRedo->setEnabled(false);
+    }
 }
 
 void MainWindow::on_actionFlip_y_triggered()
 {
-    std::shared_ptr<ICommand> c1(new flipYCommand(*activeImage));
-    commandManager.execute(c1);
-    qDebug() << "rotate clockwise";
-    activeImage->updateBuffer();
-    pixmapItem->setPixmap(QPixmap::fromImage(activeImage->getQImage()));
+    if(activeImage!= nullptr) {
+        std::shared_ptr<ICommand> c1(new flipYCommand(*activeImage));
+        commandManager.execute(c1);
+        qDebug() << "rotate clockwise";
+        activeImage->updateBuffer();
+        pixmapItem->setPixmap(QPixmap::fromImage(activeImage->getQImage()));
 
-    pendingSaveModifications = true;
+        pendingSaveModifications = true;
+        ui->actionSave->setEnabled(true);
+        ui->actionUndo->setEnabled(true);
+        ui->actionRedo->setEnabled(false);
+    }
 }
 
 void MainWindow::on_actionUndo_triggered()
 {
-    commandManager.undo();
-    activeImage->updateBuffer();
-    pixmapItem->setPixmap(QPixmap::fromImage(activeImage->getQImage()));
-    updateStatusBar();
+    if(activeImage!= nullptr && !commandManager.isUndoStackEmpty()) {
+        commandManager.undo();
+        activeImage->updateBuffer();
+        pixmapItem->setPixmap(QPixmap::fromImage(activeImage->getQImage()));
+        updateStatusBar();
+        scene.setSceneRect(0, 0, activeImage->getW(), activeImage->getH());
+        on_actionZoom_Adapt_triggered();
 
-    pendingSaveModifications = true;
+        pendingSaveModifications = true;
+        ui->actionRedo->setEnabled(true);
+
+        if(commandManager.isUndoStackEmpty())
+            ui->actionUndo->setEnabled(false);
+
+    }
 }
 
 void MainWindow::on_actionRedo_triggered()
 {
-    commandManager.redo();
-    activeImage->updateBuffer();
-    pixmapItem->setPixmap(QPixmap::fromImage(activeImage->getQImage()));
-    updateStatusBar();
+    if(activeImage!= nullptr && !commandManager.isRedoStackEmpty()) {
+        commandManager.redo();
+        activeImage->updateBuffer();
+        pixmapItem->setPixmap(QPixmap::fromImage(activeImage->getQImage()));
+        updateStatusBar();
+        scene.setSceneRect(0, 0, activeImage->getW(), activeImage->getH());
+        on_actionZoom_Adapt_triggered();
 
-    pendingSaveModifications = true;
+        pendingSaveModifications = true;
+        ui->actionUndo->setEnabled(true);
+
+        if(commandManager.isRedoStackEmpty())
+            ui->actionRedo->setEnabled(false);
+    }
 }
 
 void MainWindow::on_actionGrayscale_triggered()
 {
-    std::shared_ptr<ICommand> c1(new grayScaleCommand(*activeImage));
-    commandManager.execute(c1);
-    qDebug() << "grayscale";
-    activeImage->updateBuffer();
-    pixmapItem->setPixmap(QPixmap::fromImage(activeImage->getQImage()));
+    if(activeImage!= nullptr) {
+        std::shared_ptr<ICommand> c1(new grayScaleCommand(*activeImage));
+        commandManager.execute(c1);
+        qDebug() << "grayscale";
+        activeImage->updateBuffer();
+        pixmapItem->setPixmap(QPixmap::fromImage(activeImage->getQImage()));
 
-    pendingSaveModifications = true;
+        pendingSaveModifications = true;
+        ui->actionSave->setEnabled(true);
+        ui->actionUndo->setEnabled(true);
+        ui->actionRedo->setEnabled(false);
+    }
 }
 
 void MainWindow::on_actionBlur_triggered()
 {
-    std::shared_ptr<ICommand> c1(new blurCommand(*activeImage));
-    commandManager.execute(c1);
-    qDebug() << "blur";
-    activeImage->updateBuffer();
-    pixmapItem->setPixmap(QPixmap::fromImage(activeImage->getQImage()));
+    if(activeImage!= nullptr) {
+        std::shared_ptr<ICommand> c1(new blurCommand(*activeImage));
+        commandManager.execute(c1);
+        qDebug() << "blur";
+        activeImage->updateBuffer();
+        pixmapItem->setPixmap(QPixmap::fromImage(activeImage->getQImage()));
 
-    pendingSaveModifications = true;
+        pendingSaveModifications = true;
+        ui->actionSave->setEnabled(true);
+        ui->actionUndo->setEnabled(true);
+        ui->actionRedo->setEnabled(false);
+    }
 }
 
 void MainWindow::on_actionSharpen_triggered()
 {
-    std::shared_ptr<ICommand> c1(new sharpenCommand(*activeImage));
-    commandManager.execute(c1);
-    qDebug() << "sharpen";
-    activeImage->updateBuffer();
-    pixmapItem->setPixmap(QPixmap::fromImage(activeImage->getQImage()));
+    if(activeImage!= nullptr) {
+        std::shared_ptr<ICommand> c1(new sharpenCommand(*activeImage));
+        commandManager.execute(c1);
+        qDebug() << "sharpen";
+        activeImage->updateBuffer();
+        pixmapItem->setPixmap(QPixmap::fromImage(activeImage->getQImage()));
 
-    pendingSaveModifications = true;
+        pendingSaveModifications = true;
+        ui->actionSave->setEnabled(true);
+        ui->actionUndo->setEnabled(true);
+        ui->actionRedo->setEnabled(false);
+    }
 }
 
 void MainWindow::on_actionEmboss_triggered()
 {
-    std::shared_ptr<ICommand> c1(new embossCommand(*activeImage));
-    commandManager.execute(c1);
-    qDebug() << "emboss";
-    activeImage->updateBuffer();
-    pixmapItem->setPixmap(QPixmap::fromImage(activeImage->getQImage()));
+    if(activeImage!= nullptr) {
+        std::shared_ptr<ICommand> c1(new embossCommand(*activeImage));
+        commandManager.execute(c1);
+        qDebug() << "emboss";
+        activeImage->updateBuffer();
+        pixmapItem->setPixmap(QPixmap::fromImage(activeImage->getQImage()));
 
-    pendingSaveModifications = true;
+        pendingSaveModifications = true;
+        ui->actionSave->setEnabled(true);
+        ui->actionUndo->setEnabled(true);
+        ui->actionRedo->setEnabled(false);
+    }
 }
 
 void MainWindow::on_actionEdge_detect_triggered()
 {
-    std::shared_ptr<ICommand> c1(new edgeDetectCommand(*activeImage));
-    commandManager.execute(c1);
-    qDebug() << "edgedetect";
-    activeImage->updateBuffer();
-    pixmapItem->setPixmap(QPixmap::fromImage(activeImage->getQImage()));
+    if(activeImage!= nullptr) {
+        std::shared_ptr<ICommand> c1(new edgeDetectCommand(*activeImage));
+        commandManager.execute(c1);
+        qDebug() << "edgedetect";
+        activeImage->updateBuffer();
+        pixmapItem->setPixmap(QPixmap::fromImage(activeImage->getQImage()));
 
-    pendingSaveModifications = true;
+        pendingSaveModifications = true;
+        ui->actionSave->setEnabled(true);
+        ui->actionUndo->setEnabled(true);
+        ui->actionRedo->setEnabled(false);
+    }
 }
 
 void MainWindow::closeEvent(QCloseEvent *event){
 
-    if(pendingSaveModifications){
+    if(pendingSaveModifications && !ui->graphicsView->isHidden()){
 
         QString title = APP_NAME;
         QString message = "<p>Any modifications not saved will be lost. Are you "
@@ -287,7 +410,11 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_actionSave_triggered()
 {
-    activeImage->save(activeImage->getPath());
+    if(activeImage!= nullptr){
+        activeImage->save(activeImage->getPath());
+        ui->actionSave->setEnabled(false);
+        pendingSaveModifications = false;
+    }
 }
 
 void MainWindow::on_actionAbout_Image_Editor_triggered()
@@ -315,4 +442,105 @@ void MainWindow::on_actionAbout_Image_Editor_triggered()
 void MainWindow::on_actionAbout_Qt_triggered()
 {
     QMessageBox::aboutQt(this);
+}
+
+void MainWindow::on_actionContrast_triggered()
+{
+    if(activeImage!=nullptr){
+        bool ok = false;
+        QList<QString> field = {"Contrast"};
+        QList<int> input = InputDialog::getFields(this,
+                                         field,
+                                         -100, 100, 10, &ok);
+
+        if(ok){
+            int inputValue = input[0];
+            std::shared_ptr<ICommand>c1(new contrastCommand(*activeImage, inputValue));
+            commandManager.execute(c1);
+            activeImage->updateBuffer();
+            pixmapItem->setPixmap(QPixmap::fromImage(activeImage->getQImage()));
+
+            pendingSaveModifications = true;
+            ui->actionSave->setEnabled(true);
+            ui->actionUndo->setEnabled(true);
+            ui->actionRedo->setEnabled(false);
+        }
+    }
+}
+
+void MainWindow::on_actionBrightness_triggered()
+{
+    if(activeImage!=nullptr){
+        bool ok = false;
+        QList<QString> field = {"Brightness"};
+        QList<int> input = InputDialog::getFields(this,
+                                           field,
+                                           -100, 100, 10, &ok);
+
+        if(ok){
+            int inputValue = input[0];
+            std::shared_ptr<ICommand>c1(new brightnessCommand(*activeImage, inputValue));
+            commandManager.execute(c1);
+            activeImage->updateBuffer();
+            pixmapItem->setPixmap(QPixmap::fromImage(activeImage->getQImage()));
+
+            pendingSaveModifications = true;
+            ui->actionSave->setEnabled(true);
+            ui->actionUndo->setEnabled(true);
+            ui->actionRedo->setEnabled(false);
+        }
+    }
+}
+
+void MainWindow::on_actionColormask_triggered()
+{
+    if(activeImage!=nullptr){
+        bool ok = false;
+        QList<QString> fields = {"Red", "Green", "Blue"};
+        QList<int> values = InputDialog::getFields(this, fields, 0, 255, 1, &ok);
+
+        if(ok){
+            int r = values[0];
+            int g = values[1];
+            int b = values[2];
+
+            std::shared_ptr<ICommand> c(new colorMaskCommand(*activeImage, r, g, b));
+            commandManager.execute(c);
+            activeImage->updateBuffer();
+            pixmapItem->setPixmap(QPixmap::fromImage(activeImage->getQImage()));
+
+            pendingSaveModifications = true;
+            ui->actionSave->setEnabled(true);
+            ui->actionUndo->setEnabled(true);
+            ui->actionRedo->setEnabled(false);
+        }
+    }
+}
+
+void MainWindow::on_actionScale_triggered()
+{
+    if(activeImage!=nullptr){
+        bool ok = false;
+        QList<QString> fields = {"Width", "Height"};
+        QList<int> values = InputDialog::getFields(this, fields, 1, 10000, 100, &ok);
+
+
+        if(ok){
+            int w = values[0];
+            int h = values[1];
+
+            std::shared_ptr<ICommand> c(new scaleCommand(*activeImage, w, h));
+            commandManager.execute(c);
+            activeImage->updateBuffer();
+            pixmapItem->setPixmap(QPixmap::fromImage(activeImage->getQImage()));
+            scene.setSceneRect(0, 0, activeImage->getW(), activeImage->getH());
+            on_actionZoom_Adapt_triggered();
+
+            pendingSaveModifications = true;
+            ui->actionSave->setEnabled(true);
+            ui->actionUndo->setEnabled(true);
+            ui->actionRedo->setEnabled(false);
+            updateStatusBar();
+        }
+    }
 }

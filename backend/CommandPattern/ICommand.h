@@ -9,7 +9,7 @@ public:
 
     virtual void redo() = 0;
 
-    virtual ~ICommand() {};
+    virtual ~ICommand() = default;
 };
 
 #endif //IMAGE_EDITOR_ICOMMAND_H

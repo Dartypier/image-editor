@@ -9,6 +9,8 @@ private:
     Image &image;
     std::vector<Pixel>& pixelBuffer;
     std::vector<Pixel> backupPixelBuffer;
+    int backupW;
+    int backupH;
     int x;
     int y;
 

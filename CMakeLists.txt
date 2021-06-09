@@ -1,6 +1,6 @@
 # macros used by the app #
 add_compile_definitions(APP_NAME="Image Editor")
-add_compile_definitions(APP_VERSION="0.1.0")
+add_compile_definitions(APP_VERSION="1.0.0")
 ##############################################################
 
 cmake_minimum_required(VERSION 3.19)
@@ -65,9 +65,9 @@ set(FRONTEND
         frontend/MainWindow.cpp
         frontend/MainWindow.h
         frontend/MainWindow.ui
-#        frontend/InputDialog.h
-#        frontend/InputDialog.cpp
-        frontend/resources.qrc)
+        frontend/resources.qrc
+        frontend/InputDialog.cpp
+        frontend/InputDialog.h)
 
 add_executable(${PROJECT_NAME} ${BACKEND} ${FRONTEND})
 
