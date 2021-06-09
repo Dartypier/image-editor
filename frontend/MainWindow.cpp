@@ -7,8 +7,6 @@
 #include <QList>
 #include "InputDialog.h"
 
-//TODO: check posible Stack error!
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),

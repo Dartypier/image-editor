@@ -4,15 +4,15 @@
 #include "../Image.h"
 #include "../CommandPattern/Commands.h"
 
-class CommandsTest : public ::testing::Test{
+class TestCommands : public ::testing::Test{
 
 protected:
     Image not_uni;
 
-    CommandsTest(): not_uni(PATH + "not_uni.png"){}
+    TestCommands(): not_uni(PATH + "not_uni.png"){}
 };
 
-TEST_F(CommandsTest, BlurCommand){
+TEST_F(TestCommands, BlurCommand){
 
      Pixel validated_not_uni[2*3] = {
              Pixel(180, 138, 75, 255), Pixel(146, 108, 102, 255), Pixel(112, 78, 129, 255),
@@ -29,7 +29,7 @@ TEST_F(CommandsTest, BlurCommand){
         EXPECT_EQ(pixelBuffer[i], validated_not_uni[i]);
 }
 
-TEST_F(CommandsTest, BrightnessCommand){
+TEST_F(TestCommands, BrightnessCommand){
 
     Pixel validated_not_uni[2 * 3] = {
             Pixel(255, 255, 147, 255), Pixel(255, 127, 127, 255), Pixel(214, 169, 255, 255),
@@ -46,7 +46,7 @@ TEST_F(CommandsTest, BrightnessCommand){
         EXPECT_EQ(pixelBuffer[i], validated_not_uni[i]);
 }
 
-TEST_F(CommandsTest, BrightnessCommandOutOfRangeNegative) {
+TEST_F(TestCommands, BrightnessCommandOutOfRangeNegative) {
 
     Pixel validated_not_uni[2 * 3] = {
             Pixel(0, 0, 0, 255), Pixel(0, 0, 0, 255), Pixel(0, 0, 0, 255),
@@ -62,7 +62,7 @@ TEST_F(CommandsTest, BrightnessCommandOutOfRangeNegative) {
         EXPECT_EQ(pixelBuffer[i], validated_not_uni[i]);
 }
 
-TEST_F(CommandsTest, BrightnessCommandOutOfRangePositive) {
+TEST_F(TestCommands, BrightnessCommandOutOfRangePositive) {
 
     Pixel validated_not_uni[2 * 3] = {
             Pixel(255, 255, 255, 255), Pixel(255, 254, 254, 255), Pixel(255, 255, 255, 255),
@@ -78,7 +78,7 @@ TEST_F(CommandsTest, BrightnessCommandOutOfRangePositive) {
         EXPECT_EQ(pixelBuffer[i], validated_not_uni[i]);
 }
 
-TEST_F(CommandsTest, ColorMaskCommand) {
+TEST_F(TestCommands, ColorMaskCommand) {
 
     Pixel validated_not_uni[2*3] ={
             Pixel(32, 25, 6, 255), Pixel(51, 0, 0, 255), Pixel(17, 4, 42, 255),
@@ -95,7 +95,7 @@ TEST_F(CommandsTest, ColorMaskCommand) {
         EXPECT_EQ(pixelBuffer[i], validated_not_uni[i]);
 }
 
-TEST_F(CommandsTest, ColorMaskCommandOutOfRange) {
+TEST_F(TestCommands, ColorMaskCommandOutOfRange) {
 
     Pixel validated_not_uni[2*3] ={
             Pixel(0, 25, 26, 255), Pixel(0, 0, 0, 255), Pixel(0, 4, 185, 255),
@@ -112,7 +112,7 @@ TEST_F(CommandsTest, ColorMaskCommandOutOfRange) {
         EXPECT_EQ(pixelBuffer[i], validated_not_uni[i]);
 }
 
-TEST_F(CommandsTest, ContrastCommand) {
+TEST_F(TestCommands, ContrastCommand) {
 
     //#1
     Pixel validated_not_uni[2 * 3] = {
@@ -130,7 +130,7 @@ TEST_F(CommandsTest, ContrastCommand) {
         EXPECT_EQ(pixelBuffer[i], validated_not_uni[i]);
 }
 
-TEST_F(CommandsTest, ContrastCommandOutOFRangePositive) {
+TEST_F(TestCommands, ContrastCommandOutOFRangePositive) {
     //#2
     Pixel validated_not_uni[2 * 3] = {
             Pixel(255, 255, 0, 255), Pixel(255, 0, 0, 255), Pixel(0, 0, 255, 255),
@@ -147,7 +147,7 @@ TEST_F(CommandsTest, ContrastCommandOutOFRangePositive) {
         EXPECT_EQ(pixelBuffer[i], validated_not_uni[i]);
 }
 
-TEST_F(CommandsTest, ContrastCommandOutOfRangeNegative) {
+TEST_F(TestCommands, ContrastCommandOutOfRangeNegative) {
     //#3
     Pixel validated_not_uni[2 * 3] = {
             Pixel(128, 128, 128, 255), Pixel(128, 127, 127, 255), Pixel(128, 128, 128, 255),
@@ -164,7 +164,7 @@ TEST_F(CommandsTest, ContrastCommandOutOfRangeNegative) {
         EXPECT_EQ(pixelBuffer[i], validated_not_uni[i]);
 }
 
-TEST_F(CommandsTest, EdgeDetectCommand) {
+TEST_F(TestCommands, EdgeDetectCommand) {
 
     Pixel validated_not_unit[2 * 3] = {
             Pixel(0, 0, 0, 255), Pixel(176, 176, 176, 255), Pixel(154, 154, 154, 255),
@@ -181,7 +181,7 @@ TEST_F(CommandsTest, EdgeDetectCommand) {
         EXPECT_EQ(pixelBuffer[i], validated_not_unit[i]);
 }
 
-TEST_F(CommandsTest, EmbossCommand) {
+TEST_F(TestCommands, EmbossCommand) {
 
     Pixel validated_not_uni[2 * 3] = {
             Pixel(65, 0, 255, 255), Pixel(0, 0, 255, 255), Pixel(0, 255, 255, 255),
@@ -198,7 +198,7 @@ TEST_F(CommandsTest, EmbossCommand) {
         EXPECT_EQ(pixelBuffer[i], validated_not_uni[i]);
 }
 
-TEST_F(CommandsTest, FlipXCommand) {
+TEST_F(TestCommands, FlipXCommand) {
 
     //not_uni.png data flipped X
     Pixel validated_not_uni[2 * 3] = {
@@ -215,7 +215,7 @@ TEST_F(CommandsTest, FlipXCommand) {
         EXPECT_EQ(pixelBuffer[i], validated_not_uni[i]);
 }
 
-TEST_F(CommandsTest, FlipYCommand) {
+TEST_F(TestCommands, FlipYCommand) {
 
     //not_uni.png
     Pixel validated_not_uni[2 * 3] = {
@@ -232,7 +232,7 @@ TEST_F(CommandsTest, FlipYCommand) {
         EXPECT_EQ(pixelBuffer[i], validated_not_uni[i]);
 }
 
-TEST_F(CommandsTest, grayScale){
+TEST_F(TestCommands, grayScale){
 
     Pixel validated_not_uni[2*3] = {
             Pixel(217, 217, 217, 255), Pixel(54, 54, 54, 255), Pixel(58, 58, 58, 255),
@@ -249,7 +249,7 @@ TEST_F(CommandsTest, grayScale){
         EXPECT_EQ(pixelBuffer[i], validated_not_uni[i]);
 }
 
-TEST_F(CommandsTest, RotateClockwiseCommand) {
+TEST_F(TestCommands, RotateClockwiseCommand) {
     Pixel validated_not_uni[3 * 2] = {
             Pixel(243, 94, 207, 255), Pixel(161, 255, 20, 255),
             Pixel(25, 61, 197, 255), Pixel(255, 0, 0, 255),
@@ -265,7 +265,7 @@ TEST_F(CommandsTest, RotateClockwiseCommand) {
         EXPECT_EQ(pixelBuffer[i], validated_not_uni[i]);
 }
 
-TEST_F(CommandsTest, RotateAntiClockwiseCommand) {
+TEST_F(TestCommands, RotateAntiClockwiseCommand) {
 
     Pixel validated_not_uni[3 * 2] = {
             Pixel(87, 42, 143, 255), Pixel(88, 255, 218, 255),
@@ -282,7 +282,7 @@ TEST_F(CommandsTest, RotateAntiClockwiseCommand) {
         EXPECT_EQ(pixelBuffer[i], validated_not_uni[i]);
 }
 
-TEST_F(CommandsTest, ScaleDownCommand) {
+TEST_F(TestCommands, ScaleDownCommand) {
 
     Pixel validated_not_uni[1 * 2] = {
             Pixel(161, 255, 20, 255), Pixel(255, 0, 0, 255)
@@ -297,7 +297,7 @@ TEST_F(CommandsTest, ScaleDownCommand) {
         EXPECT_EQ(pixelBuffer[i], validated_not_uni[i]);
 }
 
-TEST_F(CommandsTest, ScaleUpCommand) {
+TEST_F(TestCommands, ScaleUpCommand) {
 
     Pixel validated_not_uni[2 * 4] = {
             Pixel(161, 255, 20, 255), Pixel(161, 255, 20, 255), Pixel(255, 0, 0, 255), Pixel(87, 42, 143, 255),
@@ -313,7 +313,7 @@ TEST_F(CommandsTest, ScaleUpCommand) {
         EXPECT_EQ(pixelBuffer[i], validated_not_uni[i]);
 }
 
-TEST_F(CommandsTest, SharpenCommand) {
+TEST_F(TestCommands, SharpenCommand) {
 
     Pixel validated_not_uni[2 * 3] = {
             Pixel(0, 255, 0, 255), Pixel(255, 0, 0, 255), Pixel(0, 0, 225, 255),
