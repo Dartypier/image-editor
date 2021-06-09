@@ -35,12 +35,7 @@ void Image::initPixelBuffer() {
 
 bool Image::save(const QString &outPath, int quality) {
 
-    rawImage = QImage(w, h, QImage::Format_ARGB32);
-
-    for (int y = 0; y < h; y++) //rows
-        for (int x = 0; x < w; x++) { //columns
-            rawImage.setPixelColor(x, y, Pixel::toQColor(pixelBuffer[y * w + x]));
-        }
+    updateBuffer();
 
     //save image on disk
     return rawImage.save(outPath, nullptr, quality);

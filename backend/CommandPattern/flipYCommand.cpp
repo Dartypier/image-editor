@@ -9,7 +9,7 @@ void flipYCommand::execute() {
 }
 
 void flipYCommand::undo() {
-    backupPixelBuffer = pixelBuffer;
+    pixelBuffer = backupPixelBuffer;
 }
 
 void flipYCommand::redo() {
