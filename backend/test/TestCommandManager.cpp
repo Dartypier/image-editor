@@ -3,7 +3,7 @@
 #include "../Image.h"
 #include "../CommandPattern/Commands.h"
 
-#define PATH QStringLiteral("/home/jacopo/CLionProjects/image_editor/backend/test/test-images/")
+#define PATH QStringLiteral("../../../backend/test/test-images/")
 
 
 class TestCommandManager : public ::testing::Test {

@@ -1,8 +1,8 @@
-#define PATH QStringLiteral("/home/jacopo/CLionProjects/image_editor/backend/test/test-images/")
-
 #include "gtest/gtest.h"
 #include "../Image.h"
 #include "../CommandPattern/Commands.h"
+
+#define PATH QStringLiteral("../../../backend/test/test-images/")
 
 class TestCommands : public ::testing::Test{
 
