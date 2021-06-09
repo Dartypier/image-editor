@@ -1,7 +1,7 @@
-#define PATH QStringLiteral("/home/jacopo/CLionProjects/image_editor/backend/test/test-images/")
-
 #include "gtest/gtest.h"
 #include "../Image.h"
+
+#define PATH QStringLiteral("../../../backend/test/test-images/")
 
 class TestImage : public ::testing::Test {
 
@@ -37,9 +37,9 @@ TEST_F(TestImage, Ctor) {
 }
 
 TEST_F(TestImage, Path) {
-    EXPECT_EQ(solid_pink.getPath(), "/home/jacopo/CLionProjects/image_editor/backend/test/test-images/3x2_solid_pink.jpg");
-    EXPECT_EQ(solid_green.getPath(), "/home/jacopo/CLionProjects/image_editor/backend/test/test-images/3x3_solid_green.jpg");
-    EXPECT_EQ(alpha_yellow.getPath(), "/home/jacopo/CLionProjects/image_editor/backend/test/test-images/3x4_alpha_yellow.png");
+    EXPECT_EQ(solid_pink.getPath(), "../../../backend/test/test-images/3x2_solid_pink.jpg");
+    EXPECT_EQ(solid_green.getPath(), "../../../backend/test/test-images/3x3_solid_green.jpg");
+    EXPECT_EQ(alpha_yellow.getPath(), "../../../backend/test/test-images/3x4_alpha_yellow.png");
 }
 
 TEST_F(TestImage, Filename) {
