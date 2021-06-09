@@ -276,6 +276,8 @@ void MainWindow::on_actionUndo_triggered()
 
         pendingSaveModifications = true;
         ui->actionRedo->setEnabled(true);
+        pendingSaveModifications = true;
+        ui->actionSave->setEnabled(true);
 
         if(commandManager.isUndoStackEmpty())
             ui->actionUndo->setEnabled(false);
@@ -295,6 +297,8 @@ void MainWindow::on_actionRedo_triggered()
 
         pendingSaveModifications = true;
         ui->actionUndo->setEnabled(true);
+        pendingSaveModifications = true;
+        ui->actionSave->setEnabled(true);
 
         if(commandManager.isRedoStackEmpty())
             ui->actionRedo->setEnabled(false);
