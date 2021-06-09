@@ -75,7 +75,7 @@
     <value type="Qt::CheckState" key="/home/jacopo/CLionProjects/image_editor/backend/test/TestCommands.cpp:BrightnessCommandOutOfRangePositive">Checked</value>
     <value type="Qt::CheckState" key="/home/jacopo/CLionProjects/image_editor/backend/test/TestCommands.cpp:ColorMaskCommand">Checked</value>
     <value type="Qt::CheckState" key="/home/jacopo/CLionProjects/image_editor/backend/test/TestCommands.cpp:ColorMaskCommandOutOfRange">Checked</value>
-    <value type="Qt::CheckState" key="/home/jacopo/CLionProjects/image_editor/backend/test/TestCommands.cpp:CommandsTest">Checked</value>
+    <value type="Qt::CheckState" key="/home/jacopo/CLionProjects/image_editor/backend/test/TestCommands.cpp:TestCommands">Checked</value>
     <value type="Qt::CheckState" key="/home/jacopo/CLionProjects/image_editor/backend/test/TestCommands.cpp:ContrastCommand">Checked</value>
     <value type="Qt::CheckState" key="/home/jacopo/CLionProjects/image_editor/backend/test/TestCommands.cpp:ContrastCommandOutOFRangePositive">Checked</value>
     <value type="Qt::CheckState" key="/home/jacopo/CLionProjects/image_editor/backend/test/TestCommands.cpp:ContrastCommandOutOfRangeNegative">Checked</value>
@@ -91,7 +91,7 @@
     <value type="Qt::CheckState" key="/home/jacopo/CLionProjects/image_editor/backend/test/TestCommands.cpp:grayScale">Checked</value>
     <value type="Qt::CheckState" key="/home/jacopo/CLionProjects/image_editor/backend/test/TestImage.cpp:Ctor">Checked</value>
     <value type="Qt::CheckState" key="/home/jacopo/CLionProjects/image_editor/backend/test/TestImage.cpp:Filename">Checked</value>
-    <value type="Qt::CheckState" key="/home/jacopo/CLionProjects/image_editor/backend/test/TestImage.cpp:ImageTest">Checked</value>
+    <value type="Qt::CheckState" key="/home/jacopo/CLionProjects/image_editor/backend/test/TestImage.cpp:TestImage">Checked</value>
     <value type="Qt::CheckState" key="/home/jacopo/CLionProjects/image_editor/backend/test/TestImage.cpp:Path">Checked</value>
     <value type="Qt::CheckState" key="/home/jacopo/CLionProjects/image_editor/backend/test/TestImage.cpp:Size">Checked</value>
     <value type="Qt::CheckState" key="/home/jacopo/CLionProjects/image_editor/backend/test/TestPixel.cpp:CPYCtor">Checked</value>
