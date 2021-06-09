@@ -21,3 +21,11 @@ Image editor written in C++ and Qt5 for Uni project. It provides basic functiona
      * Sharpen
      * Emboss
      * Edge detect
+
+### How to compile ###
+GTest lib suite is already included in the project. The only thing to modify to be able to compile the project is the Path to Qt5 library files. Just modify the variable `CMAKE_PREFIX_PATH` (CMakeLists.txt file located in the root folder of the repo) to your actual location of Qt libraries. The compilation process works already in Clion and QtCreator. For other Ides some adjustment may be done.
+
+Note: the C++ compiler version to compile the project should be compatible at least with C++ 11.
+
+### How to run the App ###
+An AppImage for Linux is released.
