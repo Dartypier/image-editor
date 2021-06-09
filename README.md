@@ -4,7 +4,7 @@
 
 ![image info](screen_shot.png)
 
-Image editor written in C++ and Qt5 for Uni project. It provides basic functionalities to manipulate images:
+Image editor written in C++ and Qt5 for Programmazione class teached by Marco Bertini. It provides basic functionalities to manipulate images:
  * Editing:
      * Rotate clockwise
      * Rotate anticlockwise
