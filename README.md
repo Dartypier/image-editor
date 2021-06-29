@@ -28,4 +28,4 @@ GTest lib suite is already included in the project. The only thing to modify to 
 Note: the C++ compiler version to compile the project should be compatible at least with C++ 11.
 
 ### How to run the App ###
-An alpha executable for Linux (Ubuntu 18 or newer) has been released.
+An alpha executable for Linux (Ubuntu 18 or newer) and Windows has been released.
