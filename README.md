@@ -4,7 +4,7 @@
 
 ![image info](screen_shot.png)
 
-Image-Editor is a simple GUI Image Editor written in C++ and Qt5 for Programmazione class held by Marco Bertini. It provides basic functionalities to manipulate images:
+Image-Editor is a simple GUI Image Editor written in C++ and Qt5 for Programmazione class held by Marco Bertini, it is available for Linux OS and Windows. It provides basic functionalities to manipulate images:
  * Editing:
      * Rotate clockwise
      * Rotate anticlockwise
